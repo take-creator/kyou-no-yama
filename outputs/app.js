@@ -724,6 +724,152 @@ const onsenPhotoVariants = {
   ryujin: ["ryujin", "ryujinSpa1", "ryujinSpa2"],
   rotenburo: ["rotenburo", "kawayuBath", "ryujinBath"],
 };
+const officialOnsenPhotos = {
+  "伏尾温泉 不死王閣": {
+    url: "https://www.fushioukaku.co.jp/top/img/day-trip_img01.png",
+    source: "https://www.fushioukaku.co.jp/",
+    label: "伏尾温泉 不死王閣",
+    credit: "公式写真",
+  },
+  "箕面湯元 水春": {
+    url: "https://suisyun.jp/mino/wp-content/uploads/2022/06/ogp.jpg",
+    source: "https://suisyun.jp/mino/",
+    label: "箕面湯元 水春",
+    credit: "公式写真",
+  },
+  "東香里湯元 水春": {
+    url: "https://suisyun.jp/neyagawa/wp-content/uploads/2022/05/ogp.png",
+    source: "https://suisyun.jp/neyagawa/",
+    label: "東香里湯元 水春",
+    credit: "公式写真",
+  },
+  "神戸みなと温泉 蓮": {
+    url: "https://ren-onsen.jp/img/og_image.jpg",
+    source: "https://ren-onsen.jp/",
+    label: "神戸みなと温泉 蓮",
+    credit: "公式写真",
+  },
+  "HATなぎさの湯": {
+    url: "https://nagisa-u.com/wp/wp-content/uploads/ogimage.jpg",
+    source: "https://nagisa-u.com/",
+    label: "HATなぎさの湯",
+    credit: "公式写真",
+  },
+  "東大阪石切温泉 ホテルセイリュウ": {
+    url: "https://www.hotelseiryu.com/ogp.jpg",
+    source: "https://www.hotelseiryu.com/",
+    label: "ホテルセイリュウ",
+    credit: "公式写真",
+  },
+  "摂津峡花の里温泉 山水館": {
+    url: "https://sansuikan.com/common/img/img_main00.jpg",
+    source: "https://sansuikan.com/",
+    label: "山水館",
+    credit: "公式写真",
+  },
+  "奈良健康ランド": {
+    url: "https://www.narakenkoland.net/assets/top/facility_spa-c4866dcbe7e8e719329cf7f1d83ca5933f30acee41c919b09cb4d3ea226b9fbd.jpg",
+    source: "https://www.narakenkoland.net/",
+    label: "奈良健康ランド",
+    credit: "公式写真",
+  },
+  "大津温泉 おふろcafeびわこ座": {
+    url: "https://ofurocafe-biwakoza.com/common/img/ogp.png",
+    source: "https://ofurocafe-biwakoza.com/",
+    label: "びわこ座",
+    credit: "公式写真",
+  },
+  "スパリゾート雄琴 あがりゃんせ": {
+    url: "https://www.agaryanse.co.jp/wp-content/themes/agaryanse_theme/images/home/mv_img01.jpg",
+    source: "https://www.agaryanse.co.jp/",
+    label: "あがりゃんせ",
+    credit: "公式写真",
+  },
+  "りんくうの湯": {
+    url: "https://rinkunoyu.jp/wp/wp-content/uploads/2023/05/ogp_2101.png",
+    source: "https://rinkunoyu.jp/",
+    label: "りんくうの湯",
+    credit: "公式写真",
+  },
+  "草津湯元 水春": {
+    url: "https://suisyun.jp/kusatsu/wp-content/uploads/2023/12/ogp.png",
+    source: "https://suisyun.jp/kusatsu/",
+    label: "草津湯元 水春",
+    credit: "公式写真",
+  },
+  "比良とぴあ": {
+    url: "https://www.hiratopia.com/images/main_01.jpg",
+    source: "https://www.hiratopia.com/",
+    label: "比良とぴあ",
+    credit: "公式写真",
+  },
+  "くつき温泉てんくう": {
+    url: "https://gp-kutsuki.com/wp-content/themes/twentyseventeen-child/assets/images/og-image.png",
+    source: "https://gp-kutsuki.com/tencoo/",
+    label: "くつき温泉てんくう",
+    credit: "公式写真",
+  },
+  "高野山温泉 福智院": {
+    url: "https://fukuchiin.com/wp-content/uploads/logo_ogp.jpg",
+    source: "https://www.fukuchiin.com/",
+    label: "福智院",
+    credit: "公式写真",
+  },
+  "かつらぎ温泉 八風の湯": {
+    url: "https://www.happuno-yu.com/images/back1.jpg",
+    source: "https://www.happuno-yu.com/",
+    label: "八風の湯",
+    credit: "公式写真",
+  },
+  "さがの温泉 天山の湯": {
+    url: "https://ndg.jp/wp-content/uploads/2025/04/kinkaku.webp",
+    source: "https://ndg.jp/tenzan/",
+    label: "天山の湯",
+    credit: "公式写真",
+  },
+  "塩田温泉 湯元 上山旅館": {
+    url: "https://ueyama-ryokan.com/img/common/img_ogpimage.png",
+    source: "https://www.ueyama-ryokan.com/",
+    label: "上山旅館",
+    credit: "公式写真",
+  },
+  "あねがわ温泉": {
+    url: "https://static.wixstatic.com/media/3ea8c1_cd68419b4be0416b835c37d5ac04490e~mv2.jpg/v1/fill/w_700,h_580,al_c/3ea8c1_cd68419b4be0416b835c37d5ac04490e~mv2.jpg",
+    source: "https://www.mau.co.jp/onsen",
+    label: "あねがわ温泉",
+    credit: "公式写真",
+  },
+  "季楽里龍神": {
+    url: "https://kirari-ryujin.com/common/img/ogp.jpg",
+    source: "https://kirari-ryujin.com/",
+    label: "季楽里龍神",
+    credit: "公式写真",
+  },
+  "ホテル杉の湯": {
+    url: "https://www.suginoyu.com/common/img/ogp.jpg",
+    source: "https://www.suginoyu.com/",
+    label: "ホテル杉の湯",
+    credit: "公式写真",
+  },
+  "大宇陀温泉 あきののゆ": {
+    url: "https://akinonoyu.nara.jp/wp-content/uploads/2023/04/topbana01.jpg",
+    source: "https://akinonoyu.nara.jp/",
+    label: "あきののゆ",
+    credit: "公式写真",
+  },
+  "天の川温泉センター": {
+    url: "https://www.vill.tenkawa.nara.jp/tourism/wp-content/uploads/2021/07/DSC3465.jpg",
+    source: "https://www.vill.tenkawa.nara.jp/tourism/spot/5174/",
+    label: "天の川温泉センター",
+    credit: "公式写真",
+  },
+  "洞川温泉センター": {
+    url: "https://www.vill.tenkawa.nara.jp/tourism/wp-content/uploads/2021/07/resize-5166.jpg",
+    source: "https://www.vill.tenkawa.nara.jp/tourism/spot/5166/",
+    label: "洞川温泉センター",
+    credit: "公式写真",
+  },
+};
 const onsenPhotoKeysByMountain = {
   kongo: "nara",
   ikoma: "nara",
@@ -881,6 +1027,13 @@ function photoFor(mountain) {
 }
 
 function onsenPhotoFor(mountain, onsen = {}, index = 0) {
+  if (officialOnsenPhotos[onsen.name]) {
+    return officialOnsenPhotos[onsen.name];
+  }
+  return null;
+}
+
+function representativeOnsenPhotoFor(mountain, onsen = {}, index = 0) {
   const basePhotoKey = onsen.photoKey ?? onsenPhotoKeysByMountain[mountain.id] ?? "rotenburo";
   const photoKeys = onsenPhotoVariants[basePhotoKey] ?? [basePhotoKey];
   const photoKey = photoKeys[index % photoKeys.length] ?? basePhotoKey;
@@ -888,6 +1041,7 @@ function onsenPhotoFor(mountain, onsen = {}, index = 0) {
 }
 
 function photoSourceUrl(photo) {
+  if (photo.source) return photo.source;
   if (!photo.file) return "";
   return `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(photo.file).replace(/%20/g, "_")}`;
 }
@@ -895,7 +1049,7 @@ function photoSourceUrl(photo) {
 function photoCreditLink(photo) {
   const sourceUrl = photoSourceUrl(photo);
   if (!sourceUrl) return "";
-  return `<a class="image-credit" href="${sourceUrl}" target="_blank" rel="noopener">写真: Wikimedia Commons</a>`;
+  return `<a class="image-credit" href="${sourceUrl}" target="_blank" rel="noopener">${escapeHtml(photo.credit ?? "写真: Wikimedia Commons")}</a>`;
 }
 
 function mapsSearchUrl(query) {
@@ -943,20 +1097,30 @@ function renderOnsenSection(mountain) {
     .map((onsen, index) => {
       const photo = onsenPhotoFor(mountain, onsen, index);
       const query = `${onsen.name} ${onsen.area}`;
-      return `
-        <div class="onsen-item">
+      const photoMarkup = photo
+        ? `
           <div class="onsen-photo-frame">
             <img
               class="onsen-photo"
               src="${escapeHtml(photo.url)}"
-              alt="${escapeHtml(`${onsen.name}周辺の温泉写真`)}"
+              alt="${escapeHtml(`${onsen.name}の公式写真`)}"
               loading="lazy"
               referrerpolicy="no-referrer"
-              onerror="this.src='${fallbackPhotoUrl}'; this.classList.add('image-fallback');"
+              onerror="this.closest('.onsen-photo-frame').classList.add('onsen-photo-frame--missing'); this.remove();"
             />
             <span class="onsen-photo-label">${escapeHtml(photo.label)}</span>
             ${photoCreditLink(photo)}
           </div>
+        `
+        : `
+          <a class="onsen-photo-frame onsen-photo-frame--missing" href="${mapsSearchUrl(`${query} 写真`)}" target="_blank" rel="noopener">
+            <span class="onsen-photo-label">${escapeHtml(onsen.name)}</span>
+            <strong>Google Mapsで写真を見る</strong>
+          </a>
+        `;
+      return `
+        <div class="onsen-item">
+          ${photoMarkup}
           <div class="onsen-copy">
             <div class="onsen-meta-row">
               <span class="onsen-time">登山口・下山地から ${escapeHtml(formatOnsenAccess(onsen))}</span>
