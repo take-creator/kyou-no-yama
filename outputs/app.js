@@ -1075,19 +1075,48 @@ function formatOnsenAccess(onsen) {
   return onsen.accessMinutes ? `約${onsen.accessMinutes}分` : "30分以内";
 }
 
+function roundToFive(minutes) {
+  return Math.round(minutes / 5) * 5;
+}
+
+function estimatedDrivingAccessMinutes(mountain) {
+  const trainMinutes = mountain.estimatedAccessMinutesFromOsaka;
+  if (trainMinutes <= 45) return Math.max(25, roundToFive(trainMinutes - 10));
+  if (trainMinutes <= 90) return roundToFive(trainMinutes * 0.82);
+  if (trainMinutes <= 150) return roundToFive(trainMinutes * 0.78);
+  return roundToFive(trainMinutes * 0.72);
+}
+
 function renderAccessSection(mountain) {
+  const transitMinutes = mountain.estimatedAccessMinutesFromOsaka;
+  const drivingMinutes = estimatedDrivingAccessMinutes(mountain);
+
   return `
     <div class="detail-section support-section">
       <h2>アクセス</h2>
       <dl class="access-list">
         <div class="access-row"><dt>出発地</dt><dd>${escapeHtml(state.origin)}</dd></div>
         <div class="access-row"><dt>目的地</dt><dd>${mountain.trailheadName}</dd></div>
-        <div class="access-row"><dt>目安移動時間</dt><dd>${formatHours(mountain.estimatedAccessMinutesFromOsaka)}</dd></div>
       </dl>
-      <p class="support-note">Google Mapsは公共交通ルートで開きます。車で行く場合は、Maps上で移動手段を切り替えてください。</p>
-      <div class="map-actions">
-        <a class="detail-button" href="${googleMapsUrl(mountain)}" target="_blank" rel="noopener">登山口まで案内</a>
+      <div class="access-mode-grid">
+        <div class="access-mode-card">
+          <div>
+            <p class="access-mode-label">電車・バス</p>
+            <strong>${formatHours(transitMinutes)}</strong>
+          </div>
+          <p>駅やバス停から登山口へ向かう想定です。バス本数と最終便は出発前に確認してください。</p>
+          <a class="map-link-button" href="${googleMapsUrl(mountain, "transit")}" target="_blank" rel="noopener">電車で開く</a>
+        </div>
+        <div class="access-mode-card">
+          <div>
+            <p class="access-mode-label">車</p>
+            <strong>${formatHours(drivingMinutes)}</strong>
+          </div>
+          <p>登山口または周辺駐車場までの目安です。休日は渋滞や満車に注意してください。</p>
+          <a class="map-link-button" href="${googleMapsUrl(mountain, "driving")}" target="_blank" rel="noopener">車で開く</a>
+        </div>
       </div>
+      <p class="support-note">表示時間はMVP用の目安です。実際の所要時間、乗換、駐車場の位置はGoogle Mapsで確認してください。</p>
     </div>
   `;
 }
@@ -1283,10 +1312,10 @@ function renderList() {
   });
 }
 
-function googleMapsUrl(mountain) {
+function googleMapsUrl(mountain, travelmode = "transit") {
   const destination = encodeURIComponent(`${mountain.trailheadLat},${mountain.trailheadLng}`);
   const origin = encodeURIComponent(state.origin);
-  return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=transit`;
+  return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=${travelmode}`;
 }
 
 function renderDetail(id) {
@@ -1316,7 +1345,7 @@ function renderDetail(id) {
             <div class="info-row"><dt>難易度</dt><dd>${mountain.difficulty}</dd></div>
             <div class="info-row"><dt>登山口</dt><dd>${mountain.trailheadName}</dd></div>
             <div class="info-row"><dt>登山時間</dt><dd>${formatHours(mountain.hikingMinutes)}</dd></div>
-            <div class="info-row"><dt>目安移動時間</dt><dd>${formatHours(mountain.estimatedAccessMinutesFromOsaka)}</dd></div>
+            <div class="info-row"><dt>電車・バス目安</dt><dd>${formatHours(mountain.estimatedAccessMinutesFromOsaka)}</dd></div>
           </dl>
         </div>
         ${renderAccessSection(mountain)}

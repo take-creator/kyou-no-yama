@@ -708,7 +708,7 @@ main {
 
 .access-list {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   margin: 0;
 }
@@ -732,6 +732,45 @@ main {
   font-size: 15px;
   font-weight: 900;
   line-height: 1.45;
+}
+
+.access-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.access-mode-card {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  border: 1px solid rgba(36, 93, 69, 0.14);
+  border-radius: 16px;
+  padding: 14px;
+  background: rgba(255, 254, 249, 0.78);
+}
+
+.access-mode-card strong {
+  display: block;
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.access-mode-card p {
+  margin: 0;
+  color: #33413b;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.65;
+}
+
+.access-mode-label {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
 }
 
 .support-note {
@@ -902,7 +941,6 @@ main {
 
 .map-link-button {
   display: inline-flex;
-  grid-area: action;
   align-items: center;
   justify-content: center;
   min-height: 38px;
@@ -918,6 +956,10 @@ main {
 
 .map-link-button:hover {
   background: #e7f0e4;
+}
+
+.onsen-item > .map-link-button {
+  grid-area: action;
 }
 
 .detail-button.secondary {
@@ -1077,6 +1119,10 @@ main {
   }
 
   .access-list {
+    grid-template-columns: 1fr;
+  }
+
+  .access-mode-grid {
     grid-template-columns: 1fr;
   }
 
