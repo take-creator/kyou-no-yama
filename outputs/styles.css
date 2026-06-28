@@ -706,51 +706,46 @@ main {
   padding-top: 20px;
 }
 
-.access-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 0;
-}
-
-.access-row {
-  border-radius: 14px;
-  padding: 12px;
-  background: rgba(232, 238, 229, 0.58);
-}
-
-.access-row dt {
-  margin-bottom: 4px;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 900;
-}
-
-.access-row dd {
-  margin: 0;
-  color: var(--ink);
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 1.45;
-}
-
-.access-mode-grid {
+.access-route-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-.access-mode-card {
+.access-route-card {
   display: grid;
-  gap: 10px;
+  gap: 14px;
   align-content: start;
   border: 1px solid rgba(36, 93, 69, 0.14);
   border-radius: 16px;
-  padding: 14px;
+  padding: 14px 14px 16px;
   background: rgba(255, 254, 249, 0.78);
 }
 
-.access-mode-card strong {
+.access-route-card--car .route-rail::after {
+  background: #c7ad79;
+}
+
+.access-route-card--car .route-dot {
+  border-color: #c7ad79;
+}
+
+.access-route-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid rgba(210, 220, 207, 0.86);
+  padding-bottom: 10px;
+}
+
+.access-route-header span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.access-route-header strong {
   display: block;
   color: var(--ink);
   font-size: 22px;
@@ -758,19 +753,94 @@ main {
   line-height: 1.25;
 }
 
-.access-mode-card p {
+.route-line {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.route-step {
+  display: grid;
+  position: relative;
+  grid-template-columns: 48px 24px minmax(0, 1fr);
+  gap: 10px;
+  min-height: 74px;
+}
+
+.route-step:last-child {
+  min-height: 38px;
+}
+
+.route-badge {
+  align-self: start;
+  justify-self: end;
+  min-width: 42px;
+  border-radius: 8px;
+  padding: 5px 7px;
+  background: #e6f0e1;
+  color: var(--forest-dark);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  text-align: center;
+}
+
+.route-rail {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.route-rail::after {
+  position: absolute;
+  top: 18px;
+  bottom: -4px;
+  width: 4px;
+  border-radius: 999px;
+  background: var(--forest-dark);
+  content: "";
+}
+
+.route-step:last-child .route-rail::after {
+  display: none;
+}
+
+.route-dot {
+  position: relative;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  border: 4px solid var(--forest-dark);
+  border-radius: 999px;
+  background: #fffef9;
+}
+
+.route-copy {
+  min-width: 0;
+  padding-bottom: 18px;
+}
+
+.route-step:last-child .route-copy {
+  padding-bottom: 0;
+}
+
+.route-copy h3 {
+  margin: 0 0 5px;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.route-copy p {
   margin: 0;
   color: #33413b;
   font-size: 13px;
   font-weight: 700;
   line-height: 1.65;
-}
-
-.access-mode-label {
-  margin: 0 0 4px;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 900;
 }
 
 .support-note {
@@ -1118,12 +1188,17 @@ main {
     grid-template-columns: 1fr;
   }
 
-  .access-list {
+  .access-route-grid {
     grid-template-columns: 1fr;
   }
 
-  .access-mode-grid {
-    grid-template-columns: 1fr;
+  .route-step {
+    grid-template-columns: 44px 22px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .route-copy h3 {
+    font-size: 16px;
   }
 
   .onsen-item {

@@ -1075,6 +1075,37 @@ function formatOnsenAccess(onsen) {
   return onsen.accessMinutes ? `約${onsen.accessMinutes}分` : "30分以内";
 }
 
+const accessRouteHints = {
+  kongo: { transitVia: "河内長野駅・金剛登山口バス停", carVia: "南阪奈道路・国道309号方面" },
+  ikoma: { transitVia: "鶴橋駅・枚岡駅", carVia: "阪神高速東大阪線方面" },
+  ponpon: { transitVia: "JR高槻駅・神峯山口", carVia: "名神高速 高槻IC方面" },
+  satsuki: { transitVia: "阪急池田駅", carVia: "阪神高速池田線方面" },
+  konosan: { transitVia: "京阪交野市駅・私市駅", carVia: "第二京阪道路 枚方東IC方面" },
+  rokko: { transitVia: "阪急芦屋川駅", carVia: "阪神高速 芦屋・六甲方面" },
+  maya: { transitVia: "新神戸駅", carVia: "阪神高速 神戸線方面" },
+  katsuragi: { transitVia: "近鉄御所駅・葛城ロープウェイ前", carVia: "南阪奈道路・葛城IC方面" },
+  minoh: { transitVia: "阪急箕面駅", carVia: "新御堂筋・箕面方面" },
+  iimori: { transitVia: "JR四条畷駅", carVia: "第二京阪道路・寝屋川方面" },
+  wakakusa: { transitVia: "近鉄奈良駅・奈良公園", carVia: "第二阪奈道路・奈良公園方面" },
+  otowa: { transitVia: "京阪大谷駅", carVia: "名神高速 京都東IC方面" },
+  kisen: { transitVia: "JR山中渓駅", carVia: "阪和道 泉南IC方面" },
+  hiei: { transitVia: "叡山電鉄 修学院駅", carVia: "京都東IC・比叡山方面" },
+  konze: { transitVia: "JR草津駅・上桐生バス停", carVia: "新名神 草津田上IC方面" },
+  takamikura: { transitVia: "JR曽根駅・高御位山登山口", carVia: "加古川バイパス 高砂北方面" },
+  horai: { transitVia: "JR蓬莱駅・比良駅", carVia: "湖西道路 志賀方面" },
+  bentendake: { transitVia: "南海高野山駅", carVia: "京奈和道 かつらぎ西IC方面" },
+  atago: { transitVia: "嵐山駅・清滝バス停", carVia: "京都市内・清滝方面" },
+  seppiko: { transitVia: "JR姫路駅・雪彦山バス停", carVia: "播但連絡道路 福崎方面" },
+  ibuki: { transitVia: "JR近江長岡駅・伊吹登山口", carVia: "名神高速 関ヶ原IC方面" },
+  buna: { transitVia: "JR堅田駅・坊村バス停", carVia: "湖西道路・国道367号方面" },
+  soni: { transitVia: "近鉄名張駅・曽爾高原バス停", carVia: "名阪国道 針IC方面" },
+  aoba: { transitVia: "JR若狭高浜駅", carVia: "舞鶴若狭道 大飯高浜IC方面" },
+  ryujin: { transitVia: "高野山駅・龍神温泉方面", carVia: "高野龍神スカイライン方面" },
+  odaigahara: { transitVia: "近鉄大和上市駅・大台ヶ原バス停", carVia: "国道169号・大台ヶ原ドライブウェイ" },
+  hyono: { transitVia: "JR八鹿駅・鉢伏口", carVia: "北近畿豊岡道 八鹿氷ノ山IC方面" },
+  hakkyou: { transitVia: "近鉄下市口駅・天川川合", carVia: "南阪奈道路・国道309号方面" },
+};
+
 function roundToFive(minutes) {
   return Math.round(minutes / 5) * 5;
 }
@@ -1087,34 +1118,75 @@ function estimatedDrivingAccessMinutes(mountain) {
   return roundToFive(trainMinutes * 0.72);
 }
 
+function accessHintFor(mountain) {
+  return accessRouteHints[mountain.id] ?? {
+    transitVia: "主要乗換駅・最寄りバス停",
+    carVia: "主要道路・周辺駐車場",
+  };
+}
+
+function renderAccessRouteCard({ title, minutes, steps, mapUrl, buttonLabel, modifier = "" }) {
+  const stepItems = steps
+    .map(
+      (step) => `
+        <li class="route-step">
+          <span class="route-badge">${escapeHtml(step.badge)}</span>
+          <span class="route-rail"><span class="route-dot"></span></span>
+          <div class="route-copy">
+            <h3>${escapeHtml(step.title)}</h3>
+            <p>${escapeHtml(step.detail)}</p>
+          </div>
+        </li>
+      `,
+    )
+    .join("");
+
+  return `
+    <div class="access-route-card ${modifier}">
+      <div class="access-route-header">
+        <span>${escapeHtml(title)}</span>
+        <strong>${formatHours(minutes)}</strong>
+      </div>
+      <ol class="route-line">${stepItems}</ol>
+      <a class="map-link-button" href="${mapUrl}" target="_blank" rel="noopener">${escapeHtml(buttonLabel)}</a>
+    </div>
+  `;
+}
+
 function renderAccessSection(mountain) {
   const transitMinutes = mountain.estimatedAccessMinutesFromOsaka;
   const drivingMinutes = estimatedDrivingAccessMinutes(mountain);
+  const routeHint = accessHintFor(mountain);
+  const transitSteps = [
+    { badge: "発", title: state.origin, detail: "現在地・出発地" },
+    { badge: "乗換", title: routeHint.transitVia, detail: "電車・バスを乗り継いで登山口方面へ" },
+    { badge: "着", title: mountain.trailheadName, detail: "登山口・山歩きスタート地点" },
+  ];
+  const drivingSteps = [
+    { badge: "発", title: state.origin, detail: "現在地・出発地" },
+    { badge: "経由", title: routeHint.carVia, detail: "道路状況と駐車場を確認しながら移動" },
+    { badge: "着", title: mountain.trailheadName, detail: "登山口または周辺駐車場" },
+  ];
 
   return `
     <div class="detail-section support-section">
       <h2>アクセス</h2>
-      <dl class="access-list">
-        <div class="access-row"><dt>出発地</dt><dd>${escapeHtml(state.origin)}</dd></div>
-        <div class="access-row"><dt>目的地</dt><dd>${mountain.trailheadName}</dd></div>
-      </dl>
-      <div class="access-mode-grid">
-        <div class="access-mode-card">
-          <div>
-            <p class="access-mode-label">電車・バス</p>
-            <strong>${formatHours(transitMinutes)}</strong>
-          </div>
-          <p>駅やバス停から登山口へ向かう想定です。バス本数と最終便は出発前に確認してください。</p>
-          <a class="map-link-button" href="${googleMapsUrl(mountain, "transit")}" target="_blank" rel="noopener">電車で開く</a>
-        </div>
-        <div class="access-mode-card">
-          <div>
-            <p class="access-mode-label">車</p>
-            <strong>${formatHours(drivingMinutes)}</strong>
-          </div>
-          <p>登山口または周辺駐車場までの目安です。休日は渋滞や満車に注意してください。</p>
-          <a class="map-link-button" href="${googleMapsUrl(mountain, "driving")}" target="_blank" rel="noopener">車で開く</a>
-        </div>
+      <div class="access-route-grid">
+        ${renderAccessRouteCard({
+          title: "電車・バス",
+          minutes: transitMinutes,
+          steps: transitSteps,
+          mapUrl: googleMapsUrl(mountain, "transit"),
+          buttonLabel: "電車で開く",
+        })}
+        ${renderAccessRouteCard({
+          title: "車",
+          minutes: drivingMinutes,
+          steps: drivingSteps,
+          mapUrl: googleMapsUrl(mountain, "driving"),
+          buttonLabel: "車で開く",
+          modifier: "access-route-card--car",
+        })}
       </div>
       <p class="support-note">表示時間はMVP用の目安です。実際の所要時間、乗換、駐車場の位置はGoogle Mapsで確認してください。</p>
     </div>
