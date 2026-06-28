@@ -445,6 +445,11 @@ function bathSuggestion(name, area, accessMinutes, category, note, photoKey) {
   return { name, area, accessMinutes, category, note, photoKey };
 }
 
+function commonsImageUrl(file, width = 960) {
+  const filePath = encodeURIComponent(file).replace(/%20/g, "_");
+  return `https://commons.wikimedia.org/wiki/Special:Redirect/file/${filePath}?width=${width}`;
+}
+
 const onsenSuggestions = {
   kongo: [
     bathSuggestion("かもきみの湯", "奈良県御所市", 18, "日帰り温泉", "金剛山・葛城山方面の下山後に組み合わせやすい候補です。", "nara"),
@@ -593,19 +598,59 @@ const onsenPhotos = {
     file: "Arima Onsen Kobe04s5s4272.jpg",
     label: "有馬温泉",
   },
+  arimaRiver: {
+    url: commonsImageUrl("Arima Onsen River 2013.jpg"),
+    file: "Arima Onsen River 2013.jpg",
+    label: "有馬温泉",
+  },
+  arimaRopeway: {
+    url: commonsImageUrl("170811 Rokko-Arima Ropeway Kobe Japan00n.jpg"),
+    file: "170811 Rokko-Arima Ropeway Kobe Japan00n.jpg",
+    label: "有馬方面",
+  },
   minoh: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Minoo_Kanko_Hotel.jpg/960px-Minoo_Kanko_Hotel.jpg",
     file: "Minoo Kanko Hotel.jpg",
     label: "箕面温泉",
+  },
+  minohSpa: {
+    url: commonsImageUrl("MINOO-ONSEN.JPG"),
+    file: "MINOO-ONSEN.JPG",
+    label: "箕面温泉",
+  },
+  minohFalls: {
+    url: commonsImageUrl("Minoh Falls Minoh Osaka pref Japan01s5.jpg"),
+    file: "Minoh Falls Minoh Osaka pref Japan01s5.jpg",
+    label: "箕面エリア",
   },
   nara: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Totsukawa_spa_town_2011.JPG/960px-Totsukawa_spa_town_2011.JPG",
     file: "Totsukawa spa town 2011.JPG",
     label: "奈良の温泉地",
   },
+  naraRoten: {
+    url: commonsImageUrl("Rotenburo - panoramio.jpg"),
+    file: "Rotenburo - panoramio.jpg",
+    label: "奈良の露天風呂",
+  },
+  naraIyashi: {
+    url: commonsImageUrl("Iyashinoyu - panoramio.jpg"),
+    file: "Iyashinoyu - panoramio.jpg",
+    label: "奈良の温泉",
+  },
   ogoto: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Yumotokan-Ogoto_onsen_Lake_Biwa_view_2.jpg/960px-Yumotokan-Ogoto_onsen_Lake_Biwa_view_2.jpg",
     file: "Yumotokan-Ogoto onsen Lake Biwa view 2.jpg",
+    label: "おごと温泉",
+  },
+  ogotoStation: {
+    url: commonsImageUrl("Ogoto-Onsen Station.jpg"),
+    file: "Ogoto-Onsen Station.jpg",
+    label: "おごと温泉",
+  },
+  ogotoTown: {
+    url: commonsImageUrl("Ogoto station-Nov.2013.jpg"),
+    file: "Ogoto station-Nov.2013.jpg",
     label: "おごと温泉",
   },
   kawayu: {
@@ -613,14 +658,44 @@ const onsenPhotos = {
     file: "Kawayu Onsen in Tanabe.jpg",
     label: "川湯温泉",
   },
+  kawayuRiver: {
+    url: commonsImageUrl("Kawayu onsen1.JPG"),
+    file: "Kawayu onsen1.JPG",
+    label: "川湯温泉",
+  },
+  kawayuKumano: {
+    url: commonsImageUrl("Kumano Kodo pilgrimage route Kawa-yu Onsen World heritage 熊野古道 川湯温泉08.JPG"),
+    file: "Kumano Kodo pilgrimage route Kawa-yu Onsen World heritage 熊野古道 川湯温泉08.JPG",
+    label: "川湯温泉",
+  },
   kinosaki: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Kinosaki_Onsen_%282019%29_01.jpg/960px-Kinosaki_Onsen_%282019%29_01.jpg",
     file: "Kinosaki Onsen (2019) 01.jpg",
     label: "城崎温泉",
   },
+  kinosakiStation: {
+    url: commonsImageUrl("Kinosaki onsen station.jpg"),
+    file: "Kinosaki onsen station.jpg",
+    label: "城崎温泉",
+  },
+  kinosakiInfo: {
+    url: commonsImageUrl("Kinosaki onsen tourist information center.jpg"),
+    file: "Kinosaki onsen tourist information center.jpg",
+    label: "城崎温泉街",
+  },
   ryujin: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Ryuzinonsenmotoyu.jpg/960px-Ryuzinonsenmotoyu.jpg",
     file: "Ryuzinonsenmotoyu.jpg",
+    label: "龍神温泉",
+  },
+  ryujinSpa1: {
+    url: commonsImageUrl("Ryujin Spa1.JPG"),
+    file: "Ryujin Spa1.JPG",
+    label: "龍神温泉",
+  },
+  ryujinSpa2: {
+    url: commonsImageUrl("Ryujin Spa2.JPG"),
+    file: "Ryujin Spa2.JPG",
     label: "龍神温泉",
   },
   rotenburo: {
@@ -628,6 +703,26 @@ const onsenPhotos = {
     file: "Rotenburo - panoramio.jpg",
     label: "温泉",
   },
+  kawayuBath: {
+    url: commonsImageUrl("Kawayu onsen1.JPG"),
+    file: "Kawayu onsen1.JPG",
+    label: "温泉",
+  },
+  ryujinBath: {
+    url: commonsImageUrl("Ryujin Spa1.JPG"),
+    file: "Ryujin Spa1.JPG",
+    label: "温泉",
+  },
+};
+const onsenPhotoVariants = {
+  arima: ["arima", "arimaRiver", "arimaRopeway"],
+  minoh: ["minoh", "minohSpa", "minohFalls"],
+  nara: ["nara", "naraRoten", "naraIyashi"],
+  ogoto: ["ogoto", "ogotoStation", "ogotoTown"],
+  kawayu: ["kawayu", "kawayuRiver", "kawayuKumano"],
+  kinosaki: ["kinosaki", "kinosakiStation", "kinosakiInfo"],
+  ryujin: ["ryujin", "ryujinSpa1", "ryujinSpa2"],
+  rotenburo: ["rotenburo", "kawayuBath", "ryujinBath"],
 };
 const onsenPhotoKeysByMountain = {
   kongo: "nara",
@@ -785,9 +880,11 @@ function photoFor(mountain) {
   return mountainPhotos[mountain.id] ?? { url: fallbackPhotoUrl };
 }
 
-function onsenPhotoFor(mountain, onsen = {}) {
-  const photoKey = onsen.photoKey ?? onsenPhotoKeysByMountain[mountain.id] ?? "rotenburo";
-  return onsenPhotos[photoKey] ?? onsenPhotos.rotenburo;
+function onsenPhotoFor(mountain, onsen = {}, index = 0) {
+  const basePhotoKey = onsen.photoKey ?? onsenPhotoKeysByMountain[mountain.id] ?? "rotenburo";
+  const photoKeys = onsenPhotoVariants[basePhotoKey] ?? [basePhotoKey];
+  const photoKey = photoKeys[index % photoKeys.length] ?? basePhotoKey;
+  return onsenPhotos[photoKey] ?? onsenPhotos[basePhotoKey] ?? onsenPhotos.rotenburo;
 }
 
 function photoSourceUrl(photo) {
@@ -843,8 +940,8 @@ function renderAccessSection(mountain) {
 
 function renderOnsenSection(mountain) {
   const onsenItems = nearbyOnsenFor(mountain)
-    .map((onsen) => {
-      const photo = onsenPhotoFor(mountain, onsen);
+    .map((onsen, index) => {
+      const photo = onsenPhotoFor(mountain, onsen, index);
       const query = `${onsen.name} ${onsen.area}`;
       return `
         <div class="onsen-item">
