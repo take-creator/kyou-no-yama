@@ -749,9 +749,12 @@ main {
 
 .onsen-item {
   display: grid;
-  grid-template-columns: 150px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) clamp(118px, 18vw, 150px);
+  grid-template-areas:
+    "copy photo"
+    "action photo";
   align-items: center;
-  gap: 16px;
+  gap: 12px 16px;
   border-bottom: 1px solid rgba(210, 220, 207, 0.86);
   padding: 16px 0;
 }
@@ -759,9 +762,11 @@ main {
 .onsen-photo-frame {
   position: relative;
   display: block;
+  grid-area: photo;
+  justify-self: end;
   overflow: hidden;
-  width: 150px;
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   border-radius: 14px;
   background: #dfe8db;
   color: inherit;
@@ -839,6 +844,7 @@ main {
 
 .onsen-copy {
   display: grid;
+  grid-area: copy;
   gap: 5px;
   min-width: 0;
 }
@@ -896,6 +902,7 @@ main {
 
 .map-link-button {
   display: inline-flex;
+  grid-area: action;
   align-items: center;
   justify-content: center;
   min-height: 38px;
@@ -1069,14 +1076,23 @@ main {
     grid-template-columns: 1fr;
   }
 
-  .access-list,
-  .onsen-item {
+  .access-list {
     grid-template-columns: 1fr;
+  }
+
+  .onsen-item {
+    grid-template-columns: minmax(0, 1fr) clamp(104px, 30vw, 128px);
+    grid-template-areas:
+      "copy photo"
+      "action photo";
+    align-items: start;
+    gap: 10px 12px;
   }
 
   .onsen-photo-frame {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
   }
 
   .map-link-button {
