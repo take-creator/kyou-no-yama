@@ -440,54 +440,135 @@ const backButton = document.querySelector("#backButton");
 const brandButton = document.querySelector("[data-view-home]");
 const timeOptions = document.querySelector("#timeOptions");
 const originButtons = Array.from(document.querySelectorAll("[data-origin]"));
-const imageThemes = [
-  { sky: "#dceef3", sun: "#ffe470", near: "#2f7654", far: "#8ab7a0", ground: "#eff7ef" },
-  { sky: "#e9e0f2", sun: "#ffcb68", near: "#405f8f", far: "#9ca9ce", ground: "#f5f0f7" },
-  { sky: "#f3e8d8", sun: "#ffdc73", near: "#856846", far: "#c2a77a", ground: "#fbf6ea" },
-  { sky: "#dfeef7", sun: "#ffd166", near: "#2b5f7d", far: "#8bb7cc", ground: "#eef8fb" },
-  { sky: "#e4f0df", sun: "#f8d35c", near: "#3e7040", far: "#9dbd8a", ground: "#f3faef" },
-  { sky: "#eee8dd", sun: "#f6ba57", near: "#5d6156", far: "#adb29e", ground: "#faf6eb" },
-];
+const fallbackPhotoUrl = "./assets/mountain-mark.png";
+const mountainPhotos = {
+  kongo: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Mount_Kongo%28Kongosanchi%297.jpg/1280px-Mount_Kongo%28Kongosanchi%297.jpg",
+    file: "Mount Kongo(Kongosanchi)7.jpg",
+  },
+  ikoma: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Mt_Ikoma1600px.JPG/1280px-Mt_Ikoma1600px.JPG",
+    file: "Mt Ikoma1600px.JPG",
+  },
+  ponpon: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Mt.PonPon.jpg/1280px-Mt.PonPon.jpg",
+    file: "Mt.PonPon.jpg",
+  },
+  satsuki: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Mt_satuki01.jpeg/1280px-Mt_satuki01.jpeg",
+    file: "Mt satuki01.jpeg",
+  },
+  konosan: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/4/4f/Konosan.jpg",
+    file: "Konosan.jpg",
+  },
+  rokko: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Mt_rokko01s2816.jpg/1280px-Mt_rokko01s2816.jpg",
+    file: "Mt rokko01s2816.jpg",
+  },
+  maya: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Mount_Maya_beside_Kobe.jpg/1280px-Mount_Maya_beside_Kobe.jpg",
+    file: "Mount Maya beside Kobe.jpg",
+  },
+  katsuragi: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Mount_Yamatokatsurag9.jpg/1280px-Mount_Yamatokatsurag9.jpg",
+    file: "Mount Yamatokatsurag9.jpg",
+  },
+  minoh: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Minoh_Falls_Minoh_Osaka_pref_Japan01s5.jpg/1280px-Minoh_Falls_Minoh_Osaka_pref_Japan01s5.jpg",
+    file: "Minoh Falls Minoh Osaka pref Japan01s5.jpg",
+  },
+  iimori: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Iimoriyama5.jpg/1280px-Iimoriyama5.jpg",
+    file: "Iimoriyama5.jpg",
+  },
+  wakakusa: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/WakakusaYama.jpg/1280px-WakakusaYama.jpg",
+    file: "WakakusaYama.jpg",
+  },
+  otowa: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Otowayama_Shiga_Side.jpg/1280px-Otowayama_Shiga_Side.jpg",
+    file: "Otowayama Shiga Side.jpg",
+  },
+  kisen: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/%E7%8A%AC%E9%B3%B4%E5%B1%B1%E6%B8%93%E8%B0%B7_2013.11.23_-_panoramio.jpg/1280px-%E7%8A%AC%E9%B3%B4%E5%B1%B1%E6%B8%93%E8%B0%B7_2013.11.23_-_panoramio.jpg",
+    file: "犬鳴山渓谷 2013.11.23 - panoramio.jpg",
+  },
+  hiei: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/b/b1/Hieizan_biwakogawa.JPG",
+    file: "Hieizan biwakogawa.JPG",
+  },
+  konze: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Komasaka_Magaibutsu-Buddha_figure_carved_on_a_rock_face_in_Ritto_city.jpg/1280px-Komasaka_Magaibutsu-Buddha_figure_carved_on_a_rock_face_in_Ritto_city.jpg",
+    file: "Komasaka Magaibutsu-Buddha figure carved on a rock face in Ritto city.jpg",
+  },
+  takamikura: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Takamikura1.jpg",
+    file: "Takamikura1.jpg",
+  },
+  horai: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Mt._Hira-san_01.jpg/1280px-Mt._Hira-san_01.jpg",
+    file: "Mt. Hira-san 01.jpg",
+  },
+  bentendake: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Danjogaran_Koyasan12n3200.jpg/1280px-Danjogaran_Koyasan12n3200.jpg",
+    file: "Danjogaran Koyasan12n3200.jpg",
+  },
+  atago: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Drone_panorama_of_Mount_Atago_from_the_south.jpg/1280px-Drone_panorama_of_Mount_Atago_from_the_south.jpg",
+    file: "Drone panorama of Mount Atago from the south.jpg",
+  },
+  seppiko: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Mount_Seppiko.jpg/1280px-Mount_Seppiko.jpg",
+    file: "Mount Seppiko.jpg",
+  },
+  ibuki: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Ibukiyama_from_Kannonzaka%28Maibara-Nagahama%29.jpg/1280px-Ibukiyama_from_Kannonzaka%28Maibara-Nagahama%29.jpg",
+    file: "Ibukiyama from Kannonzaka(Maibara-Nagahama).jpg",
+  },
+  buna: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Mount_Bunagatake.jpg/1280px-Mount_Bunagatake.jpg",
+    file: "Mount Bunagatake.jpg",
+  },
+  soni: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Sonikogen_from_Mount_Kuroso.jpg",
+    file: "Sonikogen from Mount Kuroso.jpg",
+  },
+  aoba: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Mount_Aoba_%28Kyoto%2C_Fukui%29.jpg/1280px-Mount_Aoba_%28Kyoto%2C_Fukui%29.jpg",
+    file: "Mount Aoba (Kyoto, Fukui).jpg",
+  },
+  ryujin: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Mt_ryujin.JPG",
+    file: "Mt ryujin.JPG",
+  },
+  odaigahara: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Mount_Odaigahara_around_Daijagura.jpg/1280px-Mount_Odaigahara_around_Daijagura.jpg",
+    file: "Mount Odaigahara around Daijagura.jpg",
+  },
+  hyono: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Hyonosen01s1600.jpg/1280px-Hyonosen01s1600.jpg",
+    file: "Hyonosen01s1600.jpg",
+  },
+  hakkyou: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Hakkyo01.JPG/1280px-Hakkyo01.JPG",
+    file: "Hakkyo01.JPG",
+  },
+};
 
-function escapeSvgText(text) {
-  return String(text).replace(/[&<>"']/g, (character) => {
-    const entities = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" };
-    return entities[character];
-  });
+function photoFor(mountain) {
+  return mountainPhotos[mountain.id] ?? { url: fallbackPhotoUrl };
 }
 
-function mountainImageSvg(mountain, index) {
-  const theme = imageThemes[index % imageThemes.length];
-  const name = escapeSvgText(mountain.name);
-  const area = escapeSvgText(mountain.area.split("・")[0]);
-  const ridgeShift = (index % 5) * 26;
-  const sunX = 710 + (index % 4) * 36;
-  const sunY = 112 + (index % 3) * 18;
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="${name}の山のイメージ">
-      <defs>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="${theme.sky}"/>
-          <stop offset="1" stop-color="${theme.ground}"/>
-        </linearGradient>
-        <linearGradient id="near" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="${theme.near}"/>
-          <stop offset="1" stop-color="#1f3f34"/>
-        </linearGradient>
-      </defs>
-      <rect width="960" height="540" fill="url(#sky)"/>
-      <circle cx="${sunX}" cy="${sunY}" r="58" fill="${theme.sun}"/>
-      <path d="M0 360 L130 285 L230 334 L340 214 L455 315 L570 238 L710 340 L820 274 L960 348 L960 540 L0 540 Z" fill="${theme.far}" opacity=".72"/>
-      <path d="M0 430 L116 ${332 - ridgeShift * 0.15} L220 380 L356 ${248 + ridgeShift * 0.2} L505 405 L620 ${292 - ridgeShift * 0.1} L760 414 L864 ${318 + ridgeShift * 0.12} L960 392 L960 540 L0 540 Z" fill="url(#near)"/>
-      <path d="M76 402 C172 356 245 350 336 384 C428 418 510 376 598 348 C700 315 790 336 884 392" fill="none" stroke="rgba(255,250,232,.92)" stroke-width="16" stroke-linecap="round"/>
-      <path d="M96 158 C204 126 304 134 410 166 C530 202 642 188 782 144" fill="none" stroke="rgba(255,255,255,.26)" stroke-width="5" stroke-linecap="round"/>
-      <path d="M42 212 C186 174 315 186 446 226 C566 262 688 252 844 202" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="4" stroke-linecap="round"/>
-      <path d="M144 270 C270 234 392 248 506 286 C618 324 746 310 914 258" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="4" stroke-linecap="round"/>
-      <text x="54" y="78" fill="rgba(24,35,32,.76)" font-size="26" font-weight="900" font-family="sans-serif">${name}</text>
-      <text x="54" y="114" fill="rgba(24,35,32,.54)" font-size="17" font-weight="800" font-family="sans-serif">${area}</text>
-    </svg>
-  `;
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+function photoSourceUrl(photo) {
+  if (!photo.file) return "";
+  return `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(photo.file).replace(/%20/g, "_")}`;
+}
+
+function photoCreditLink(photo) {
+  const sourceUrl = photoSourceUrl(photo);
+  if (!sourceUrl) return "";
+  return `<a class="image-credit" href="${sourceUrl}" target="_blank" rel="noopener">写真: Wikimedia Commons</a>`;
 }
 
 function getTimeValues() {
@@ -597,11 +678,14 @@ function renderList() {
   emptyState.classList.toggle("hidden", state.currentResults.length > 0);
 
   state.currentResults.forEach((mountain) => {
-    const mountainIndex = mountains.findIndex((item) => item.id === mountain.id);
+    const photo = photoFor(mountain);
     const card = document.createElement("article");
     card.className = "mountain-card";
     card.innerHTML = `
-      <img class="mountain-image" src="${mountainImageSvg(mountain, mountainIndex)}" alt="${mountain.name}の山のイメージ" loading="lazy" />
+      <div class="photo-frame">
+        <img class="mountain-image" src="${photo.url}" alt="${mountain.name}の写真" loading="lazy" referrerpolicy="no-referrer" onerror="this.src='${fallbackPhotoUrl}'; this.classList.add('image-fallback');" />
+        ${photoCreditLink(photo)}
+      </div>
       <div class="card-top">
         <div>
           <h3>${mountain.name}</h3>
@@ -629,9 +713,9 @@ function googleMapsUrl(mountain) {
 }
 
 function renderDetail(id) {
-  const mountainIndex = mountains.findIndex((item) => item.id === id);
-  const mountain = mountains[mountainIndex];
+  const mountain = mountains.find((item) => item.id === id);
   if (!mountain) return;
+  const photo = photoFor(mountain);
 
   detailView.innerHTML = `
     <article class="detail-card">
@@ -641,7 +725,10 @@ function renderDetail(id) {
           <h1>${mountain.name}</h1>
           <p>${mountain.elevation}m・${mountain.difficulty}</p>
         </div>
-        <img class="detail-image" src="${mountainImageSvg(mountain, mountainIndex)}" alt="${mountain.name}の山のイメージ" />
+        <div class="detail-photo-frame">
+          <img class="detail-image" src="${photo.url}" alt="${mountain.name}の写真" referrerpolicy="no-referrer" onerror="this.src='${fallbackPhotoUrl}'; this.classList.add('image-fallback');" />
+          ${photoCreditLink(photo)}
+        </div>
       </div>
       <div class="detail-body">
         <div class="detail-section">

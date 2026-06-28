@@ -486,14 +486,65 @@ main {
   transform: translateY(-2px);
 }
 
-.mountain-image {
+.photo-frame,
+.detail-photo-frame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(210, 220, 207, 0.9);
+  background:
+    linear-gradient(135deg, rgba(36, 93, 69, 0.18), rgba(58, 112, 135, 0.14)),
+    #dce8df;
+}
+
+.photo-frame {
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+}
+
+.photo-frame::after,
+.detail-photo-frame::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 44%;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(12, 26, 22, 0.4));
+}
+
+.mountain-image,
+.detail-image {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 1px solid rgba(210, 220, 207, 0.9);
-  border-radius: 16px;
-  background: #dce8df;
+  height: 100%;
   object-fit: cover;
+}
+
+.image-fallback {
+  object-fit: cover;
+  filter: saturate(0.88);
+}
+
+.image-credit {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: rgba(17, 29, 25, 0.68);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+}
+
+.image-credit:hover {
+  background: rgba(17, 29, 25, 0.86);
 }
 
 .card-top {
@@ -620,14 +671,16 @@ main {
   font-size: 14px;
 }
 
-.detail-image {
-  display: block;
+.detail-photo-frame {
   width: 100%;
   aspect-ratio: 4 / 3;
   border: 1px solid rgba(255, 255, 255, 0.48);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.16);
-  object-fit: cover;
+}
+
+.detail-photo-frame .image-credit {
+  right: 12px;
+  bottom: 12px;
 }
 
 .detail-body {
@@ -732,7 +785,7 @@ main {
     grid-template-columns: 1fr;
   }
 
-  .detail-image {
+  .detail-photo-frame {
     aspect-ratio: 16 / 9;
   }
 }
