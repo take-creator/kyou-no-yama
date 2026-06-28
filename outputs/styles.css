@@ -701,6 +701,111 @@ main {
   font-weight: 900;
 }
 
+.support-section {
+  border-top: 1px solid rgba(210, 220, 207, 0.86);
+  padding-top: 20px;
+}
+
+.access-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.access-row {
+  border-radius: 14px;
+  padding: 12px;
+  background: rgba(232, 238, 229, 0.58);
+}
+
+.access-row dt {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.access-row dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.45;
+}
+
+.support-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.onsen-list {
+  display: grid;
+  border-top: 1px solid rgba(210, 220, 207, 0.86);
+}
+
+.onsen-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid rgba(210, 220, 207, 0.86);
+  padding: 14px 0;
+}
+
+.onsen-item h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.onsen-item p {
+  margin: 0;
+  color: #33413b;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.65;
+}
+
+.onsen-item .onsen-area {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.map-link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  border: 1px solid rgba(36, 93, 69, 0.24);
+  border-radius: 12px;
+  padding: 0 13px;
+  background: rgba(255, 254, 249, 0.86);
+  color: var(--forest-dark);
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.map-link-button:hover {
+  background: #e7f0e4;
+}
+
+.detail-button.secondary {
+  border: 1px solid rgba(36, 93, 69, 0.24);
+  background: rgba(232, 238, 229, 0.74);
+  color: var(--forest-dark);
+  box-shadow: none;
+}
+
+.detail-button.secondary:hover {
+  background: #dce9d7;
+}
+
 .info-list {
   display: grid;
   gap: 10px;
@@ -834,6 +939,15 @@ main {
 
   .meta-grid {
     grid-template-columns: 1fr;
+  }
+
+  .access-list,
+  .onsen-item {
+    grid-template-columns: 1fr;
+  }
+
+  .map-link-button {
+    justify-self: start;
   }
 
   .section-heading {

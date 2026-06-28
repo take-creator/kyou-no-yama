@@ -441,6 +441,36 @@ const brandButton = document.querySelector("[data-view-home]");
 const timeOptions = document.querySelector("#timeOptions");
 const originButtons = Array.from(document.querySelectorAll("[data-origin]"));
 const fallbackPhotoUrl = "./assets/mountain-mark.png";
+const onsenSuggestions = {
+  kongo: [{ name: "かもきみの湯", area: "奈良県御所市", note: "金剛山・葛城山方面の下山後に組み合わせやすい日帰り入浴候補です。" }],
+  ikoma: [{ name: "音の花温泉", area: "奈良県生駒市", note: "生駒山の奈良側へ下りる計画と相性の良い温泉候補です。" }],
+  ponpon: [{ name: "美人湯 祥風苑", area: "大阪府高槻市", note: "摂津峡エリアの温泉候補。高槻方面へ戻る日によく合います。" }],
+  satsuki: [{ name: "伏尾温泉 不死王閣", area: "大阪府池田市", note: "五月山から池田方面へ戻る流れで検討しやすい温泉候補です。" }],
+  konosan: [{ name: "東香里湯元 水春", area: "大阪府寝屋川市", note: "交野・枚方方面の下山後に探しやすい入浴候補です。" }],
+  rokko: [{ name: "有馬温泉 太閤の湯", area: "兵庫県神戸市", note: "六甲山から有馬方面へ下る計画と相性の良い定番候補です。" }],
+  maya: [{ name: "神戸みなと温泉 蓮", area: "兵庫県神戸市", note: "新神戸・三宮方面へ戻る日の立ち寄り候補です。" }],
+  katsuragi: [{ name: "かもきみの湯", area: "奈良県御所市", note: "大和葛城山ロープウェイ側から下山する日に検討しやすい候補です。" }],
+  minoh: [{ name: "箕面温泉スパーガーデン", area: "大阪府箕面市", note: "箕面駅方面へ戻る流れで立ち寄りやすい温泉候補です。" }],
+  iimori: [{ name: "東香里湯元 水春", area: "大阪府寝屋川市", note: "四條畷・寝屋川方面で下山後に探しやすい入浴候補です。" }],
+  wakakusa: [{ name: "ゆららの湯 奈良店", area: "奈良県奈良市", note: "奈良市内観光と合わせて検討しやすい日帰り入浴候補です。" }],
+  otowa: [{ name: "大津温泉 おふろcafeびわこ座", area: "滋賀県大津市", note: "大津側へ下りる計画で候補にしやすい温泉施設です。" }],
+  kisen: [{ name: "犬鳴山温泉 不動口館", area: "大阪府泉佐野市", note: "紀泉エリアの下山後に温泉も楽しみたい日の候補です。" }],
+  hiei: [{ name: "スパリゾート雄琴 あがりゃんせ", area: "滋賀県大津市", note: "比叡山から琵琶湖側へ抜ける計画と組み合わせやすい候補です。" }],
+  konze: [{ name: "十二坊温泉ゆらら", area: "滋賀県湖南市", note: "湖南・栗東方面の山歩き後に検討しやすい温泉候補です。" }],
+  takamikura: [{ name: "高御位山周辺の温泉・日帰り入浴", area: "加古川・高砂エリア", note: "施設候補が分かれるため、現在地からGoogle Mapsで確認するのがおすすめです。" }],
+  horai: [{ name: "比良とぴあ", area: "滋賀県大津市", note: "比良山系の下山後に候補にしやすい温泉施設です。" }],
+  bentendake: [{ name: "高野山温泉 福智院", area: "和歌山県高野町", note: "高野山滞在や観光と合わせて検討しやすい温泉候補です。" }],
+  atago: [{ name: "嵐山温泉 風風の湯", area: "京都府京都市", note: "清滝・嵐山方面へ戻る計画で候補にしやすい温泉施設です。" }],
+  seppiko: [{ name: "塩田温泉 湯元 上山旅館", area: "兵庫県姫路市", note: "姫路北部方面で下山後に温泉を探す日の候補です。" }],
+  ibuki: [{ name: "伊吹薬草の里文化センター ジョイいぶき", area: "滋賀県米原市", note: "伊吹山登山口周辺で入浴候補を探すときの起点になります。" }],
+  buna: [{ name: "くつき温泉てんくう", area: "滋賀県高島市", note: "坊村・朽木方面へ下山する計画で検討しやすい候補です。" }],
+  soni: [{ name: "曽爾高原温泉 お亀の湯", area: "奈良県曽爾村", note: "曽爾高原とセットで組みやすい定番の温泉候補です。" }],
+  aoba: [{ name: "若狭高浜温泉 湯っぷる", area: "福井県高浜町", note: "青葉山から若狭湾側へ戻る日と相性の良い温泉候補です。" }],
+  ryujin: [{ name: "龍神温泉 元湯", area: "和歌山県田辺市", note: "龍神岳・高野龍神スカイライン方面と合わせたい定番候補です。" }],
+  odaigahara: [{ name: "入之波温泉 山鳩湯", area: "奈良県川上村", note: "大台ヶ原方面から帰る途中に検討しやすい温泉候補です。" }],
+  hyono: [{ name: "とがやま温泉 天女の湯", area: "兵庫県養父市", note: "氷ノ山登山後に養父方面で検討しやすい温泉候補です。" }],
+  hakkyou: [{ name: "天の川温泉センター", area: "奈良県天川村", note: "大峰・天川村方面の登山後に候補にしやすい温泉施設です。" }],
+};
 const mountainPhotos = {
   kongo: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Mount_Kongo%28Kongosanchi%297.jpg/1280px-Mount_Kongo%28Kongosanchi%297.jpg",
@@ -556,6 +586,13 @@ const mountainPhotos = {
   },
 };
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => {
+    const entities = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+    return entities[character];
+  });
+}
+
 function photoFor(mountain) {
   return mountainPhotos[mountain.id] ?? { url: fallbackPhotoUrl };
 }
@@ -569,6 +606,66 @@ function photoCreditLink(photo) {
   const sourceUrl = photoSourceUrl(photo);
   if (!sourceUrl) return "";
   return `<a class="image-credit" href="${sourceUrl}" target="_blank" rel="noopener">写真: Wikimedia Commons</a>`;
+}
+
+function mapsSearchUrl(query) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+function nearbyOnsenFor(mountain) {
+  return onsenSuggestions[mountain.id] ?? [
+    {
+      name: `${mountain.trailheadName}周辺の温泉・日帰り入浴`,
+      area: mountain.area,
+      note: "現在営業している施設はGoogle Mapsで確認してください。",
+    },
+  ];
+}
+
+function renderAccessSection(mountain) {
+  return `
+    <div class="detail-section support-section">
+      <h2>アクセス</h2>
+      <dl class="access-list">
+        <div class="access-row"><dt>出発地</dt><dd>${escapeHtml(state.origin)}</dd></div>
+        <div class="access-row"><dt>目的地</dt><dd>${mountain.trailheadName}</dd></div>
+        <div class="access-row"><dt>目安移動時間</dt><dd>${formatHours(mountain.estimatedAccessMinutesFromOsaka)}</dd></div>
+      </dl>
+      <p class="support-note">Google Mapsは公共交通ルートで開きます。車で行く場合は、Maps上で移動手段を切り替えてください。</p>
+      <div class="map-actions">
+        <a class="detail-button" href="${googleMapsUrl(mountain)}" target="_blank" rel="noopener">登山口まで案内</a>
+      </div>
+    </div>
+  `;
+}
+
+function renderOnsenSection(mountain) {
+  const onsenItems = nearbyOnsenFor(mountain)
+    .map((onsen) => {
+      const query = `${onsen.name} ${onsen.area}`;
+      return `
+        <div class="onsen-item">
+          <div>
+            <h3>${escapeHtml(onsen.name)}</h3>
+            <p class="onsen-area">${escapeHtml(onsen.area)}</p>
+            <p>${escapeHtml(onsen.note)}</p>
+          </div>
+          <a class="map-link-button" href="${mapsSearchUrl(query)}" target="_blank" rel="noopener">Maps</a>
+        </div>
+      `;
+    })
+    .join("");
+
+  return `
+    <div class="detail-section support-section">
+      <h2>近くの温泉</h2>
+      <div class="onsen-list">${onsenItems}</div>
+      <p class="support-note">営業時間、定休日、日帰り入浴の可否は変わるため、出発前に公式情報かGoogle Mapsで確認してください。</p>
+      <div class="map-actions">
+        <a class="detail-button secondary" href="${mapsSearchUrl(`${mountain.trailheadName} 周辺 温泉 日帰り入浴`)}" target="_blank" rel="noopener">周辺の温泉を探す</a>
+      </div>
+    </div>
+  `;
 }
 
 function getTimeValues() {
@@ -741,11 +838,9 @@ function renderDetail(id) {
             <div class="info-row"><dt>登山時間</dt><dd>${formatHours(mountain.hikingMinutes)}</dd></div>
             <div class="info-row"><dt>目安移動時間</dt><dd>${formatHours(mountain.estimatedAccessMinutesFromOsaka)}</dd></div>
           </dl>
-          <div class="map-actions">
-            <a class="detail-button" href="${googleMapsUrl(mountain)}" target="_blank" rel="noopener">Google Mapsで開く</a>
-          </div>
-          <p class="notice">移動時間はMVP用の大阪駅基準の固定目安です。実際の交通状況、天候、登山道状況は出発前に確認してください。</p>
         </div>
+        ${renderAccessSection(mountain)}
+        ${renderOnsenSection(mountain)}
         <div class="detail-section">
           <h2>おすすめポイント</h2>
           <ul class="bullet-list">
@@ -755,6 +850,7 @@ function renderDetail(id) {
           <ul class="bullet-list">
             ${mountain.cautions.map((item) => `<li>${item}</li>`).join("")}
           </ul>
+          <p class="notice">移動時間と温泉候補はMVP用の目安です。実際の交通状況、天候、登山道状況、施設営業状況は出発前に確認してください。</p>
         </div>
       </div>
     </article>
