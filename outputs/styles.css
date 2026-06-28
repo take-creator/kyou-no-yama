@@ -924,6 +924,16 @@ main {
   background: #dce9d7;
 }
 
+.detail-bottom-actions {
+  display: flex;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.detail-back-button {
+  min-width: 180px;
+}
+
 .info-list {
   display: grid;
   gap: 10px;
@@ -1071,6 +1081,14 @@ main {
 
   .map-link-button {
     justify-self: start;
+  }
+
+  .detail-bottom-actions {
+    justify-content: stretch;
+  }
+
+  .detail-back-button {
+    width: 100%;
   }
 
   .section-heading {

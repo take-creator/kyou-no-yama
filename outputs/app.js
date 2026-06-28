@@ -1332,6 +1332,9 @@ function renderDetail(id) {
           </ul>
           <p class="notice">移動時間と温泉候補はMVP用の目安です。実際の交通状況、天候、登山道状況、施設営業状況は出発前に確認してください。</p>
         </div>
+        <div class="detail-bottom-actions">
+          <button class="detail-button secondary detail-back-button" type="button" data-detail-back>戻る</button>
+        </div>
       </div>
     </article>
   `;
@@ -1347,6 +1350,12 @@ mountainCards.addEventListener("click", (event) => {
   const button = event.target.closest("[data-detail-id]");
   if (!button) return;
   renderDetail(button.dataset.detailId);
+});
+
+detailView.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-detail-back]");
+  if (!button) return;
+  showView("list");
 });
 
 backButton.addEventListener("click", () => {
