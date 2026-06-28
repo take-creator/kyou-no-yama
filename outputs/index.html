@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>今日の山</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <button class="brand" type="button" data-view-home>
+          <img class="brand-logo" src="./assets/mountain-mark.png" alt="" aria-hidden="true" />
+          <span class="brand-name">今日の山</span>
+        </button>
+        <p class="tagline">時間でみつける、今日の山</p>
+        <button class="ghost-button hidden" type="button" id="backButton">戻る</button>
+      </header>
+
+      <main>
+        <section class="home-screen" id="homeView">
+          <form class="search-panel" id="searchForm">
+            <div class="hero-copy">
+              <p class="home-kicker">関西の日帰り低山ガイド</p>
+              <h1>今日、どの山へ行く？</h1>
+              <p class="home-lead">出発地点と使える時間から、ちょうどいい山を選べます。</p>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label" for="originInput">出発地点</label>
+              <label class="station-search">
+                <span aria-hidden="true">⌕</span>
+                <input
+                  id="originInput"
+                  type="text"
+                  value="大阪駅"
+                  placeholder="大阪駅、梅田、現在地など"
+                  autocomplete="off"
+                />
+              </label>
+            </div>
+
+            <button class="current-button" type="button" data-origin="現在地">
+              <span aria-hidden="true">⌖</span>
+              現在地を入力
+            </button>
+
+            <div class="origin-presets">
+              <p>関西の主要地点から</p>
+              <div class="origin-grid">
+                <button type="button" data-origin="大阪駅">大阪駅</button>
+                <button type="button" data-origin="梅田">梅田</button>
+                <button type="button" data-origin="なんば">なんば</button>
+                <button type="button" data-origin="天王寺">天王寺</button>
+                <button type="button" data-origin="京橋">京橋</button>
+                <button type="button" data-origin="新大阪">新大阪</button>
+              </div>
+            </div>
+
+            <fieldset class="field">
+              <legend>使える移動時間</legend>
+              <div class="time-options" id="timeOptions">
+                <label><input type="radio" name="minutes" value="30" />30分以内</label>
+                <label><input type="radio" name="minutes" value="60" checked />31〜60分</label>
+                <label><input type="radio" name="minutes" value="90" />61〜90分</label>
+                <label><input type="radio" name="minutes" value="120" />91〜120分</label>
+                <label><input type="radio" name="minutes" value="150" />121〜150分</label>
+                <label><input type="radio" name="minutes" value="180" />151〜180分</label>
+                <label><input type="radio" name="minutes" value="210" />181〜210分</label>
+                <label><input type="radio" name="minutes" value="240" />211〜240分</label>
+              </div>
+            </fieldset>
+
+            <button class="primary-button" type="submit">検索する</button>
+          </form>
+          <p class="home-note">所要時間は「だいたい」です。天候と登山道の状況を見て、気軽にどうぞ。</p>
+        </section>
+
+        <section class="results hidden" id="listView" aria-live="polite">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">候補一覧</p>
+              <h2 id="resultTitle">おすすめの山</h2>
+            </div>
+            <p id="resultCount"></p>
+          </div>
+          <div class="cards" id="mountainCards"></div>
+          <div class="empty-state hidden" id="emptyState">
+            <h2>条件に合う山がありません</h2>
+            <p>移動時間を広げると候補が増えます。現在のMVPでは大阪駅基準の目安時間で絞り込んでいます。</p>
+          </div>
+        </section>
+
+        <section class="detail hidden" id="detailView"></section>
+      </main>
+
+      <footer class="site-footer">
+        <span>© 2026 今日の山</span>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

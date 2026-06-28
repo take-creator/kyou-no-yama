@@ -1,0 +1,10 @@
+{
+  "name": "kyou-no-yama",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -m http.server 4173 -d outputs",
+    "check": "node --check outputs/app.js"
+  }
+}
+
