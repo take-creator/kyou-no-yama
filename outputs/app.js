@@ -436,8 +436,8 @@ const resultTitle = document.querySelector("#resultTitle");
 const resultCount = document.querySelector("#resultCount");
 const mountainCards = document.querySelector("#mountainCards");
 const emptyState = document.querySelector("#emptyState");
+const topbar = document.querySelector(".topbar");
 const backButton = document.querySelector("#backButton");
-const brandButton = document.querySelector("[data-view-home]");
 const timeOptions = document.querySelector("#timeOptions");
 const originButtons = Array.from(document.querySelectorAll("[data-origin]"));
 const fallbackPhotoUrl = "./assets/mountain-mark.png";
@@ -1314,6 +1314,7 @@ function showView(view) {
   homeView.classList.toggle("hidden", view !== "home");
   listView.classList.toggle("hidden", view !== "list");
   detailView.classList.toggle("hidden", view !== "detail");
+  topbar.classList.toggle("topbar--home", view === "home");
   backButton.classList.toggle("hidden", view === "home");
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -1467,7 +1468,6 @@ backButton.addEventListener("click", () => {
   showView("home");
 });
 
-brandButton.addEventListener("click", () => showView("home"));
 originInput.addEventListener("input", updateOriginButtonState);
 timeOptions.addEventListener("change", updateSelectedTimeOptionState);
 originButtons.forEach((button) => {
