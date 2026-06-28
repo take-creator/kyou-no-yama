@@ -813,13 +813,46 @@ main {
 }
 
 .onsen-copy {
+  display: grid;
+  gap: 5px;
   min-width: 0;
 }
 
+.onsen-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.onsen-time,
+.onsen-category {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  border-radius: 999px;
+  padding: 0 9px;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.onsen-time {
+  background: #e6f0e1;
+  color: var(--forest-dark);
+}
+
+.onsen-category {
+  background: #f3e5c4;
+  color: #68461f;
+}
+
 .onsen-item h3 {
-  margin: 0 0 4px;
+  margin: 0;
   font-size: 18px;
   font-weight: 900;
+  line-height: 1.35;
 }
 
 .onsen-item p {

@@ -441,35 +441,151 @@ const brandButton = document.querySelector("[data-view-home]");
 const timeOptions = document.querySelector("#timeOptions");
 const originButtons = Array.from(document.querySelectorAll("[data-origin]"));
 const fallbackPhotoUrl = "./assets/mountain-mark.png";
+function bathSuggestion(name, area, accessMinutes, category, note, photoKey) {
+  return { name, area, accessMinutes, category, note, photoKey };
+}
+
 const onsenSuggestions = {
-  kongo: [{ name: "かもきみの湯", area: "奈良県御所市", note: "金剛山・葛城山方面の下山後に組み合わせやすい日帰り入浴候補です。" }],
-  ikoma: [{ name: "音の花温泉", area: "奈良県生駒市", note: "生駒山の奈良側へ下りる計画と相性の良い温泉候補です。" }],
-  ponpon: [{ name: "美人湯 祥風苑", area: "大阪府高槻市", note: "摂津峡エリアの温泉候補。高槻方面へ戻る日によく合います。" }],
-  satsuki: [{ name: "伏尾温泉 不死王閣", area: "大阪府池田市", note: "五月山から池田方面へ戻る流れで検討しやすい温泉候補です。" }],
-  konosan: [{ name: "東香里湯元 水春", area: "大阪府寝屋川市", note: "交野・枚方方面の下山後に探しやすい入浴候補です。" }],
-  rokko: [{ name: "有馬温泉 太閤の湯", area: "兵庫県神戸市", note: "六甲山から有馬方面へ下る計画と相性の良い定番候補です。" }],
-  maya: [{ name: "神戸みなと温泉 蓮", area: "兵庫県神戸市", note: "新神戸・三宮方面へ戻る日の立ち寄り候補です。" }],
-  katsuragi: [{ name: "かもきみの湯", area: "奈良県御所市", note: "大和葛城山ロープウェイ側から下山する日に検討しやすい候補です。" }],
-  minoh: [{ name: "箕面温泉スパーガーデン", area: "大阪府箕面市", note: "箕面駅方面へ戻る流れで立ち寄りやすい温泉候補です。" }],
-  iimori: [{ name: "東香里湯元 水春", area: "大阪府寝屋川市", note: "四條畷・寝屋川方面で下山後に探しやすい入浴候補です。" }],
-  wakakusa: [{ name: "ゆららの湯 奈良店", area: "奈良県奈良市", note: "奈良市内観光と合わせて検討しやすい日帰り入浴候補です。" }],
-  otowa: [{ name: "大津温泉 おふろcafeびわこ座", area: "滋賀県大津市", note: "大津側へ下りる計画で候補にしやすい温泉施設です。" }],
-  kisen: [{ name: "犬鳴山温泉 不動口館", area: "大阪府泉佐野市", note: "紀泉エリアの下山後に温泉も楽しみたい日の候補です。" }],
-  hiei: [{ name: "スパリゾート雄琴 あがりゃんせ", area: "滋賀県大津市", note: "比叡山から琵琶湖側へ抜ける計画と組み合わせやすい候補です。" }],
-  konze: [{ name: "十二坊温泉ゆらら", area: "滋賀県湖南市", note: "湖南・栗東方面の山歩き後に検討しやすい温泉候補です。" }],
-  takamikura: [{ name: "高御位山周辺の温泉・日帰り入浴", area: "加古川・高砂エリア", note: "施設候補が分かれるため、現在地からGoogle Mapsで確認するのがおすすめです。" }],
-  horai: [{ name: "比良とぴあ", area: "滋賀県大津市", note: "比良山系の下山後に候補にしやすい温泉施設です。" }],
-  bentendake: [{ name: "高野山温泉 福智院", area: "和歌山県高野町", note: "高野山滞在や観光と合わせて検討しやすい温泉候補です。" }],
-  atago: [{ name: "嵐山温泉 風風の湯", area: "京都府京都市", note: "清滝・嵐山方面へ戻る計画で候補にしやすい温泉施設です。" }],
-  seppiko: [{ name: "塩田温泉 湯元 上山旅館", area: "兵庫県姫路市", note: "姫路北部方面で下山後に温泉を探す日の候補です。" }],
-  ibuki: [{ name: "伊吹薬草の里文化センター ジョイいぶき", area: "滋賀県米原市", note: "伊吹山登山口周辺で入浴候補を探すときの起点になります。" }],
-  buna: [{ name: "くつき温泉てんくう", area: "滋賀県高島市", note: "坊村・朽木方面へ下山する計画で検討しやすい候補です。" }],
-  soni: [{ name: "曽爾高原温泉 お亀の湯", area: "奈良県曽爾村", note: "曽爾高原とセットで組みやすい定番の温泉候補です。" }],
-  aoba: [{ name: "若狭高浜温泉 湯っぷる", area: "福井県高浜町", note: "青葉山から若狭湾側へ戻る日と相性の良い温泉候補です。" }],
-  ryujin: [{ name: "龍神温泉 元湯", area: "和歌山県田辺市", note: "龍神岳・高野龍神スカイライン方面と合わせたい定番候補です。" }],
-  odaigahara: [{ name: "入之波温泉 山鳩湯", area: "奈良県川上村", note: "大台ヶ原方面から帰る途中に検討しやすい温泉候補です。" }],
-  hyono: [{ name: "とがやま温泉 天女の湯", area: "兵庫県養父市", note: "氷ノ山登山後に養父方面で検討しやすい温泉候補です。" }],
-  hakkyou: [{ name: "天の川温泉センター", area: "奈良県天川村", note: "大峰・天川村方面の登山後に候補にしやすい温泉施設です。" }],
+  kongo: [
+    bathSuggestion("かもきみの湯", "奈良県御所市", 18, "日帰り温泉", "金剛山・葛城山方面の下山後に組み合わせやすい候補です。", "nara"),
+    bathSuggestion("天然温泉 虹の湯 大阪狭山店", "大阪府大阪狭山市", 28, "スーパー銭湯", "大阪方面へ戻る日にも寄り道しやすい大型入浴施設です。", "rotenburo"),
+    bathSuggestion("橿原ぽかぽか温泉", "奈良県橿原市", 30, "スーパー銭湯", "奈良側へ下りたあとに食事まで済ませやすい候補です。", "nara"),
+  ],
+  ikoma: [
+    bathSuggestion("音の花温泉", "奈良県生駒市", 15, "日帰り温泉", "生駒山の奈良側へ下りる計画と相性の良い温泉候補です。", "nara"),
+    bathSuggestion("天然温泉 風の湯 新石切店", "大阪府東大阪市", 22, "スーパー銭湯", "石切・東大阪方面へ戻るときに使いやすい候補です。", "rotenburo"),
+    bathSuggestion("東大阪石切温泉 ホテルセイリュウ", "大阪府東大阪市", 20, "温泉", "大阪平野側の眺めと合わせて検討しやすい入浴候補です。", "nara"),
+  ],
+  ponpon: [
+    bathSuggestion("美人湯 祥風苑", "大阪府高槻市", 20, "日帰り温泉", "摂津峡エリアの温泉候補。高槻方面へ戻る日によく合います。", "minoh"),
+    bathSuggestion("摂津峡花の里温泉 山水館", "大阪府高槻市", 18, "温泉", "渓谷沿いの雰囲気も楽しみたい日に向いています。", "minoh"),
+    bathSuggestion("極楽湯 茨木店", "大阪府茨木市", 28, "スーパー銭湯", "大阪北部へ戻る途中に寄りやすいスーパー銭湯候補です。", "minoh"),
+  ],
+  satsuki: [
+    bathSuggestion("伏尾温泉 不死王閣", "大阪府池田市", 12, "温泉", "五月山から池田方面へ戻る流れで検討しやすい候補です。", "minoh"),
+    bathSuggestion("箕面湯元 水春", "大阪府箕面市", 22, "スーパー銭湯", "箕面・千里方面に戻る日に使いやすい大型施設です。", "minoh"),
+    bathSuggestion("極楽湯 茨木店", "大阪府茨木市", 30, "スーパー銭湯", "大阪北部で食事も含めて整えたい日の候補です。", "minoh"),
+  ],
+  konosan: [
+    bathSuggestion("東香里湯元 水春", "大阪府寝屋川市", 22, "スーパー銭湯", "交野・枚方方面の下山後に探しやすい入浴候補です。", "minoh"),
+    bathSuggestion("湯快のゆ 寝屋川店", "大阪府寝屋川市", 25, "スーパー銭湯", "寝屋川方面へ戻るときに食事も取りやすい候補です。", "minoh"),
+    bathSuggestion("極楽湯 枚方店", "大阪府枚方市", 28, "スーパー銭湯", "枚方方面へ抜ける計画で検討しやすい候補です。", "minoh"),
+  ],
+  rokko: [
+    bathSuggestion("有馬温泉 太閤の湯", "兵庫県神戸市", 20, "日帰り温泉", "六甲山から有馬方面へ下る計画と相性の良い定番候補です。", "arima"),
+    bathSuggestion("灘温泉 水道筋店", "兵庫県神戸市", 24, "温泉", "神戸市街側へ戻る日に立ち寄りやすい温泉候補です。", "arima"),
+    bathSuggestion("HATなぎさの湯", "兵庫県神戸市", 28, "スーパー銭湯", "三宮・灘方面へ戻る日のスーパー銭湯候補です。", "arima"),
+  ],
+  maya: [
+    bathSuggestion("神戸みなと温泉 蓮", "兵庫県神戸市", 18, "温泉", "新神戸・三宮方面へ戻る日の立ち寄り候補です。", "arima"),
+    bathSuggestion("灘温泉 水道筋店", "兵庫県神戸市", 15, "温泉", "摩耶山から市街地側へ下りたあとに使いやすい候補です。", "arima"),
+    bathSuggestion("HATなぎさの湯", "兵庫県神戸市", 20, "スーパー銭湯", "神戸市街で食事も合わせやすいスーパー銭湯候補です。", "arima"),
+  ],
+  katsuragi: [
+    bathSuggestion("かもきみの湯", "奈良県御所市", 20, "日帰り温泉", "大和葛城山ロープウェイ側から下山する日に検討しやすい候補です。", "nara"),
+    bathSuggestion("橿原ぽかぽか温泉", "奈良県橿原市", 28, "スーパー銭湯", "奈良側へ戻るときに食事も済ませやすい候補です。", "nara"),
+    bathSuggestion("天然温泉 虹の湯 大阪狭山店", "大阪府大阪狭山市", 30, "スーパー銭湯", "大阪南部へ帰る流れで寄りやすい入浴候補です。", "rotenburo"),
+  ],
+  minoh: [
+    bathSuggestion("箕面温泉スパーガーデン", "大阪府箕面市", 8, "温泉", "箕面駅方面へ戻る流れで立ち寄りやすい温泉候補です。", "minoh"),
+    bathSuggestion("箕面湯元 水春", "大阪府箕面市", 15, "スーパー銭湯", "短時間で汗を流して食事まで済ませやすい候補です。", "minoh"),
+    bathSuggestion("伏尾温泉 不死王閣", "大阪府池田市", 20, "温泉", "池田方面へ抜ける計画で候補にしやすい温泉です。", "minoh"),
+  ],
+  iimori: [
+    bathSuggestion("東香里湯元 水春", "大阪府寝屋川市", 20, "スーパー銭湯", "四條畷・寝屋川方面で下山後に探しやすい入浴候補です。", "minoh"),
+    bathSuggestion("湯快のゆ 寝屋川店", "大阪府寝屋川市", 22, "スーパー銭湯", "京阪沿線へ戻るときに使いやすい候補です。", "minoh"),
+    bathSuggestion("極楽湯 枚方店", "大阪府枚方市", 28, "スーパー銭湯", "枚方方面へ抜ける帰り道で検討しやすい候補です。", "minoh"),
+  ],
+  wakakusa: [
+    bathSuggestion("ゆららの湯 奈良店", "奈良県奈良市", 18, "スーパー銭湯", "奈良市内観光と合わせて検討しやすい日帰り入浴候補です。", "nara"),
+    bathSuggestion("ゆららの湯 押熊店", "奈良県奈良市", 25, "スーパー銭湯", "奈良北部へ戻る計画で使いやすい大型施設です。", "nara"),
+    bathSuggestion("奈良健康ランド", "奈良県天理市", 30, "スーパー銭湯", "食事や休憩までまとめたい日に向いている候補です。", "nara"),
+  ],
+  otowa: [
+    bathSuggestion("大津温泉 おふろcafeびわこ座", "滋賀県大津市", 20, "スーパー銭湯", "大津側へ下りる計画で候補にしやすい温泉施設です。", "ogoto"),
+    bathSuggestion("スパリゾート雄琴 あがりゃんせ", "滋賀県大津市", 28, "スーパー銭湯", "琵琶湖側へ戻る日にゆっくり休みやすい候補です。", "ogoto"),
+    bathSuggestion("守山天然温泉 ほたるの湯", "滋賀県守山市", 30, "スーパー銭湯", "湖東方面へ帰る流れで検討しやすい候補です。", "ogoto"),
+  ],
+  kisen: [
+    bathSuggestion("犬鳴山温泉 不動口館", "大阪府泉佐野市", 10, "温泉", "紀泉エリアの下山後に温泉も楽しみたい日の候補です。", "rotenburo"),
+    bathSuggestion("りんくうの湯", "大阪府泉佐野市", 28, "スーパー銭湯", "大阪湾側へ戻る日に食事や買い物と合わせやすい候補です。", "rotenburo"),
+    bathSuggestion("天然温泉 清児の湯", "大阪府貝塚市", 30, "スーパー銭湯", "泉州方面へ戻る日の立ち寄り候補です。", "rotenburo"),
+  ],
+  hiei: [
+    bathSuggestion("スパリゾート雄琴 あがりゃんせ", "滋賀県大津市", 20, "スーパー銭湯", "比叡山から琵琶湖側へ抜ける計画と組み合わせやすい候補です。", "ogoto"),
+    bathSuggestion("大津温泉 おふろcafeびわこ座", "滋賀県大津市", 25, "スーパー銭湯", "大津市街側へ戻る日にも使いやすい候補です。", "ogoto"),
+    bathSuggestion("草津湯元 水春", "滋賀県草津市", 30, "スーパー銭湯", "草津・京都方面へ戻るときに検討しやすい候補です。", "ogoto"),
+  ],
+  konze: [
+    bathSuggestion("十二坊温泉ゆらら", "滋賀県湖南市", 15, "日帰り温泉", "湖南・栗東方面の山歩き後に検討しやすい温泉候補です。", "ogoto"),
+    bathSuggestion("守山天然温泉 ほたるの湯", "滋賀県守山市", 28, "スーパー銭湯", "湖東方面へ戻る日に食事も合わせやすい候補です。", "ogoto"),
+    bathSuggestion("草津湯元 水春", "滋賀県草津市", 30, "スーパー銭湯", "草津方面へ抜ける帰り道で使いやすい候補です。", "ogoto"),
+  ],
+  takamikura: [
+    bathSuggestion("野天風呂 あかねの湯 加古川店", "兵庫県加古川市", 25, "スーパー銭湯", "加古川方面へ戻るときに立ち寄りやすい候補です。", "kinosaki"),
+    bathSuggestion("加古川天然温泉 ぷくぷくの湯", "兵庫県加古川市", 25, "スーパー銭湯", "下山後に食事も済ませやすいスーパー銭湯候補です。", "kinosaki"),
+    bathSuggestion("野天風呂 あかねの湯 姫路南店", "兵庫県姫路市", 30, "スーパー銭湯", "姫路方面へ戻る日の候補です。", "kinosaki"),
+  ],
+  horai: [
+    bathSuggestion("比良とぴあ", "滋賀県大津市", 15, "日帰り温泉", "比良山系の下山後に候補にしやすい温泉施設です。", "ogoto"),
+    bathSuggestion("スパリゾート雄琴 あがりゃんせ", "滋賀県大津市", 30, "スーパー銭湯", "琵琶湖側へ戻ってゆっくり休みたい日の候補です。", "ogoto"),
+    bathSuggestion("くつき温泉てんくう", "滋賀県高島市", 30, "日帰り温泉", "湖西北部へ抜ける計画で検討しやすい候補です。", "ogoto"),
+  ],
+  bentendake: [
+    bathSuggestion("高野山温泉 福智院", "和歌山県高野町", 8, "温泉", "高野山滞在や観光と合わせて検討しやすい温泉候補です。", "kawayu"),
+    bathSuggestion("かつらぎ温泉 八風の湯", "和歌山県かつらぎ町", 30, "日帰り温泉", "高野山から下る帰り道で検討しやすい候補です。", "kawayu"),
+    bathSuggestion("野迫川温泉 ホテルのせ川", "奈良県野迫川村", 30, "日帰り温泉", "南側へ抜ける計画で候補にしやすい温泉です。", "kawayu"),
+  ],
+  atago: [
+    bathSuggestion("嵐山温泉 風風の湯", "京都府京都市", 25, "日帰り温泉", "清滝・嵐山方面へ戻る計画で候補にしやすい温泉施設です。", "kinosaki"),
+    bathSuggestion("さがの温泉 天山の湯", "京都府京都市", 30, "スーパー銭湯", "嵯峨野方面へ戻る日に食事も合わせやすい候補です。", "kinosaki"),
+    bathSuggestion("仁左衛門の湯", "京都府京都市", 30, "スーパー銭湯", "京都市内へ戻る帰り道で検討しやすい候補です。", "kinosaki"),
+  ],
+  seppiko: [
+    bathSuggestion("塩田温泉 湯元 上山旅館", "兵庫県姫路市", 25, "温泉", "姫路北部方面で下山後に温泉を探す日の候補です。", "kinosaki"),
+    bathSuggestion("姫路市はやしだ交流センター ゆたりん", "兵庫県姫路市", 28, "日帰り温泉", "姫路北部の帰り道で立ち寄りやすい候補です。", "kinosaki"),
+    bathSuggestion("野天風呂 あかねの湯 姫路南店", "兵庫県姫路市", 30, "スーパー銭湯", "姫路市街方面へ戻る日のスーパー銭湯候補です。", "kinosaki"),
+  ],
+  ibuki: [
+    bathSuggestion("伊吹薬草の里文化センター ジョイいぶき", "滋賀県米原市", 15, "日帰り温泉", "伊吹山登山口周辺で入浴候補を探すときの起点になります。", "ogoto"),
+    bathSuggestion("あねがわ温泉", "滋賀県長浜市", 28, "日帰り温泉", "長浜方面へ戻る帰り道で検討しやすい候補です。", "ogoto"),
+    bathSuggestion("長浜太閤温泉 浜湖月", "滋賀県長浜市", 30, "温泉", "琵琶湖側へ戻る計画で候補にしやすい温泉です。", "ogoto"),
+  ],
+  buna: [
+    bathSuggestion("くつき温泉てんくう", "滋賀県高島市", 25, "日帰り温泉", "坊村・朽木方面へ下山する計画で検討しやすい候補です。", "ogoto"),
+    bathSuggestion("比良とぴあ", "滋賀県大津市", 30, "日帰り温泉", "湖西側へ戻る日に使いやすい温泉候補です。", "ogoto"),
+    bathSuggestion("マキノ高原温泉さらさ", "滋賀県高島市", 30, "日帰り温泉", "高島方面へ抜ける計画で候補にしやすい施設です。", "ogoto"),
+  ],
+  soni: [
+    bathSuggestion("曽爾高原温泉 お亀の湯", "奈良県曽爾村", 10, "日帰り温泉", "曽爾高原とセットで組みやすい定番の温泉候補です。", "nara"),
+    bathSuggestion("みつえ温泉 姫石の湯", "奈良県御杖村", 25, "日帰り温泉", "御杖方面へ抜ける帰り道で検討しやすい候補です。", "nara"),
+    bathSuggestion("美榛苑", "奈良県宇陀市", 30, "温泉", "宇陀方面へ戻る日に候補にしやすい温泉です。", "nara"),
+  ],
+  aoba: [
+    bathSuggestion("若狭高浜温泉 湯っぷる", "福井県高浜町", 20, "日帰り温泉", "青葉山から若狭湾側へ戻る日と相性の良い温泉候補です。", "kinosaki"),
+    bathSuggestion("あみーシャン大飯", "福井県おおい町", 25, "日帰り温泉", "若狭湾沿いへ抜ける計画で候補にしやすい施設です。", "kinosaki"),
+    bathSuggestion("濱の湯", "福井県小浜市", 30, "日帰り温泉", "小浜方面へ戻る日の入浴候補です。", "kinosaki"),
+  ],
+  ryujin: [
+    bathSuggestion("龍神温泉 元湯", "和歌山県田辺市", 20, "日帰り温泉", "龍神岳・高野龍神スカイライン方面と合わせたい定番候補です。", "ryujin"),
+    bathSuggestion("季楽里龍神", "和歌山県田辺市", 22, "温泉", "龍神温泉エリアで食事や休憩も検討しやすい候補です。", "ryujin"),
+    bathSuggestion("丹生ヤマセミ温泉館", "和歌山県田辺市", 30, "日帰り温泉", "龍神方面から下る帰り道で候補にしやすい施設です。", "ryujin"),
+  ],
+  odaigahara: [
+    bathSuggestion("入之波温泉 山鳩湯", "奈良県川上村", 30, "温泉", "大台ヶ原方面から帰る途中に検討しやすい温泉候補です。", "kawayu"),
+    bathSuggestion("ホテル杉の湯", "奈良県川上村", 25, "温泉", "川上村方面へ戻るときに候補にしやすい温泉です。", "kawayu"),
+    bathSuggestion("大宇陀温泉 あきののゆ", "奈良県宇陀市", 30, "日帰り温泉", "奈良方面へ戻る日の立ち寄り候補です。", "nara"),
+  ],
+  hyono: [
+    bathSuggestion("とがやま温泉 天女の湯", "兵庫県養父市", 25, "日帰り温泉", "氷ノ山登山後に養父方面で検討しやすい温泉候補です。", "kinosaki"),
+    bathSuggestion("但馬楽座 やぶ温泉", "兵庫県養父市", 30, "日帰り温泉", "養父方面へ戻る帰り道で候補にしやすい施設です。", "kinosaki"),
+    bathSuggestion("若杉高原温泉", "兵庫県養父市", 30, "日帰り温泉", "若杉方面へ抜ける計画で検討しやすい候補です。", "kinosaki"),
+  ],
+  hakkyou: [
+    bathSuggestion("天の川温泉センター", "奈良県天川村", 25, "日帰り温泉", "大峰・天川村方面の登山後に候補にしやすい温泉施設です。", "nara"),
+    bathSuggestion("洞川温泉センター", "奈良県天川村", 30, "日帰り温泉", "洞川方面へ戻るときに立ち寄りやすい候補です。", "nara"),
+    bathSuggestion("黒滝の湯", "奈良県黒滝村", 30, "日帰り温泉", "下市・黒滝方面へ帰る計画で候補にしやすい施設です。", "nara"),
+  ],
 };
 const onsenPhotos = {
   arima: {
@@ -669,8 +785,8 @@ function photoFor(mountain) {
   return mountainPhotos[mountain.id] ?? { url: fallbackPhotoUrl };
 }
 
-function onsenPhotoFor(mountain) {
-  const photoKey = onsenPhotoKeysByMountain[mountain.id] ?? "rotenburo";
+function onsenPhotoFor(mountain, onsen = {}) {
+  const photoKey = onsen.photoKey ?? onsenPhotoKeysByMountain[mountain.id] ?? "rotenburo";
   return onsenPhotos[photoKey] ?? onsenPhotos.rotenburo;
 }
 
@@ -690,13 +806,22 @@ function mapsSearchUrl(query) {
 }
 
 function nearbyOnsenFor(mountain) {
-  return onsenSuggestions[mountain.id] ?? [
+  const suggestions = onsenSuggestions[mountain.id] ?? [
     {
       name: `${mountain.trailheadName}周辺の温泉・日帰り入浴`,
       area: mountain.area,
+      accessMinutes: 30,
+      category: "日帰り入浴",
       note: "現在営業している施設はGoogle Mapsで確認してください。",
     },
   ];
+  return suggestions
+    .filter((onsen) => !onsen.accessMinutes || onsen.accessMinutes <= 30)
+    .sort((first, second) => (first.accessMinutes ?? 30) - (second.accessMinutes ?? 30));
+}
+
+function formatOnsenAccess(onsen) {
+  return onsen.accessMinutes ? `約${onsen.accessMinutes}分` : "30分以内";
 }
 
 function renderAccessSection(mountain) {
@@ -719,7 +844,7 @@ function renderAccessSection(mountain) {
 function renderOnsenSection(mountain) {
   const onsenItems = nearbyOnsenFor(mountain)
     .map((onsen) => {
-      const photo = onsenPhotoFor(mountain);
+      const photo = onsenPhotoFor(mountain, onsen);
       const query = `${onsen.name} ${onsen.area}`;
       return `
         <div class="onsen-item">
@@ -736,6 +861,10 @@ function renderOnsenSection(mountain) {
             ${photoCreditLink(photo)}
           </div>
           <div class="onsen-copy">
+            <div class="onsen-meta-row">
+              <span class="onsen-time">登山口・下山地から ${escapeHtml(formatOnsenAccess(onsen))}</span>
+              <span class="onsen-category">${escapeHtml(onsen.category ?? "入浴施設")}</span>
+            </div>
             <h3>${escapeHtml(onsen.name)}</h3>
             <p class="onsen-area">${escapeHtml(onsen.area)}</p>
             <p>${escapeHtml(onsen.note)}</p>
@@ -748,11 +877,11 @@ function renderOnsenSection(mountain) {
 
   return `
     <div class="detail-section support-section">
-      <h2>近くの温泉</h2>
+      <h2>30分以内の温泉・スーパー銭湯</h2>
       <div class="onsen-list">${onsenItems}</div>
-      <p class="support-note">営業時間、定休日、日帰り入浴の可否は変わるため、出発前に公式情報かGoogle Mapsで確認してください。</p>
+      <p class="support-note">表示時間は登山口または主な下山地点からの目安です。営業時間、定休日、日帰り入浴の可否は変わるため、出発前に公式情報かGoogle Mapsで確認してください。</p>
       <div class="map-actions">
-        <a class="detail-button secondary" href="${mapsSearchUrl(`${mountain.trailheadName} 周辺 温泉 日帰り入浴`)}" target="_blank" rel="noopener">周辺の温泉を探す</a>
+        <a class="detail-button secondary" href="${mapsSearchUrl(`${mountain.trailheadName} 周辺 スーパー銭湯 温泉`)}" target="_blank" rel="noopener">周辺の温泉を探す</a>
       </div>
     </div>
   `;
