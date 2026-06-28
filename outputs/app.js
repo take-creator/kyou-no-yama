@@ -471,6 +471,78 @@ const onsenSuggestions = {
   hyono: [{ name: "とがやま温泉 天女の湯", area: "兵庫県養父市", note: "氷ノ山登山後に養父方面で検討しやすい温泉候補です。" }],
   hakkyou: [{ name: "天の川温泉センター", area: "奈良県天川村", note: "大峰・天川村方面の登山後に候補にしやすい温泉施設です。" }],
 };
+const onsenPhotos = {
+  arima: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Arima_Onsen_Kobe04s5s4272.jpg/960px-Arima_Onsen_Kobe04s5s4272.jpg",
+    file: "Arima Onsen Kobe04s5s4272.jpg",
+    label: "有馬温泉",
+  },
+  minoh: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Minoo_Kanko_Hotel.jpg/960px-Minoo_Kanko_Hotel.jpg",
+    file: "Minoo Kanko Hotel.jpg",
+    label: "箕面温泉",
+  },
+  nara: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Totsukawa_spa_town_2011.JPG/960px-Totsukawa_spa_town_2011.JPG",
+    file: "Totsukawa spa town 2011.JPG",
+    label: "奈良の温泉地",
+  },
+  ogoto: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Yumotokan-Ogoto_onsen_Lake_Biwa_view_2.jpg/960px-Yumotokan-Ogoto_onsen_Lake_Biwa_view_2.jpg",
+    file: "Yumotokan-Ogoto onsen Lake Biwa view 2.jpg",
+    label: "おごと温泉",
+  },
+  kawayu: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/d/dc/Kawayu_Onsen_in_Tanabe.jpg",
+    file: "Kawayu Onsen in Tanabe.jpg",
+    label: "川湯温泉",
+  },
+  kinosaki: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Kinosaki_Onsen_%282019%29_01.jpg/960px-Kinosaki_Onsen_%282019%29_01.jpg",
+    file: "Kinosaki Onsen (2019) 01.jpg",
+    label: "城崎温泉",
+  },
+  ryujin: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Ryuzinonsenmotoyu.jpg/960px-Ryuzinonsenmotoyu.jpg",
+    file: "Ryuzinonsenmotoyu.jpg",
+    label: "龍神温泉",
+  },
+  rotenburo: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Rotenburo_-_panoramio.jpg/960px-Rotenburo_-_panoramio.jpg",
+    file: "Rotenburo - panoramio.jpg",
+    label: "温泉",
+  },
+};
+const onsenPhotoKeysByMountain = {
+  kongo: "nara",
+  ikoma: "nara",
+  ponpon: "minoh",
+  satsuki: "minoh",
+  konosan: "minoh",
+  rokko: "arima",
+  maya: "arima",
+  katsuragi: "nara",
+  minoh: "minoh",
+  iimori: "minoh",
+  wakakusa: "nara",
+  otowa: "ogoto",
+  kisen: "rotenburo",
+  hiei: "ogoto",
+  konze: "ogoto",
+  takamikura: "kinosaki",
+  horai: "ogoto",
+  bentendake: "kawayu",
+  atago: "kinosaki",
+  seppiko: "kinosaki",
+  ibuki: "ogoto",
+  buna: "ogoto",
+  soni: "nara",
+  aoba: "kinosaki",
+  ryujin: "ryujin",
+  odaigahara: "kawayu",
+  hyono: "kinosaki",
+  hakkyou: "nara",
+};
 const mountainPhotos = {
   kongo: {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Mount_Kongo%28Kongosanchi%297.jpg/1280px-Mount_Kongo%28Kongosanchi%297.jpg",
@@ -597,6 +669,11 @@ function photoFor(mountain) {
   return mountainPhotos[mountain.id] ?? { url: fallbackPhotoUrl };
 }
 
+function onsenPhotoFor(mountain) {
+  const photoKey = onsenPhotoKeysByMountain[mountain.id] ?? "rotenburo";
+  return onsenPhotos[photoKey] ?? onsenPhotos.rotenburo;
+}
+
 function photoSourceUrl(photo) {
   if (!photo.file) return "";
   return `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(photo.file).replace(/%20/g, "_")}`;
@@ -642,10 +719,23 @@ function renderAccessSection(mountain) {
 function renderOnsenSection(mountain) {
   const onsenItems = nearbyOnsenFor(mountain)
     .map((onsen) => {
+      const photo = onsenPhotoFor(mountain);
       const query = `${onsen.name} ${onsen.area}`;
       return `
         <div class="onsen-item">
-          <div>
+          <div class="onsen-photo-frame">
+            <img
+              class="onsen-photo"
+              src="${escapeHtml(photo.url)}"
+              alt="${escapeHtml(`${onsen.name}周辺の温泉写真`)}"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              onerror="this.src='${fallbackPhotoUrl}'; this.classList.add('image-fallback');"
+            />
+            <span class="onsen-photo-label">${escapeHtml(photo.label)}</span>
+            ${photoCreditLink(photo)}
+          </div>
+          <div class="onsen-copy">
             <h3>${escapeHtml(onsen.name)}</h3>
             <p class="onsen-area">${escapeHtml(onsen.area)}</p>
             <p>${escapeHtml(onsen.note)}</p>
