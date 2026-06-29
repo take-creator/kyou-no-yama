@@ -170,6 +170,8 @@ main {
 }
 
 .home-title-row {
+  --home-title-size: clamp(42px, 7vw, 76px);
+
   display: flex;
   align-items: center;
   gap: clamp(10px, 1.8vw, 16px);
@@ -178,8 +180,8 @@ main {
 .home-mountain-image {
   display: block;
   flex: 0 0 auto;
-  width: clamp(64px, 10vw, 96px);
-  height: clamp(64px, 10vw, 96px);
+  width: var(--home-title-size);
+  height: var(--home-title-size);
   object-fit: contain;
   object-position: center;
   filter: drop-shadow(0 10px 16px rgba(30, 46, 38, 0.14));
@@ -189,7 +191,7 @@ main {
   margin: 0;
   max-width: 420px;
   color: var(--ink);
-  font-size: clamp(42px, 7vw, 76px);
+  font-size: var(--home-title-size);
   font-weight: 900;
   line-height: 1.08;
   letter-spacing: 0;
@@ -1104,11 +1106,6 @@ main {
   .hero-copy {
     grid-row: auto;
     min-height: 0;
-  }
-
-  .home-mountain-image {
-    width: 62px;
-    height: 62px;
   }
 
   .cards {
