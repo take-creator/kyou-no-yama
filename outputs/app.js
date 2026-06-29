@@ -1072,6 +1072,7 @@ const backButton = document.querySelector("#backButton");
 const timeOptions = document.querySelector("#timeOptions");
 const originButtons = Array.from(document.querySelectorAll("[data-origin]"));
 const fallbackPhotoUrl = "./assets/mountain-mark.png";
+let listScrollY = 0;
 const defaultOriginName = "大阪駅";
 const originStationProfiles = {
   "大阪駅": {
@@ -2241,13 +2242,14 @@ function updateSelectedTimeOptionState() {
   });
 }
 
-function showView(view) {
+function showView(view, options = {}) {
+  const scrollY = options.scrollY ?? 0;
   homeView.classList.toggle("hidden", view !== "home");
   listView.classList.toggle("hidden", view !== "list");
   detailView.classList.toggle("hidden", view !== "detail");
   topbar.classList.toggle("topbar--home", view === "home");
   backButton.classList.toggle("hidden", view === "home");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({ top: scrollY, behavior: "auto" });
 }
 
 function formatHours(minutes) {
@@ -2383,18 +2385,19 @@ searchForm.addEventListener("submit", (event) => {
 mountainCards.addEventListener("click", (event) => {
   const button = event.target.closest("[data-detail-id]");
   if (!button) return;
+  listScrollY = window.scrollY;
   renderDetail(button.dataset.detailId);
 });
 
 detailView.addEventListener("click", (event) => {
   const button = event.target.closest("[data-detail-back]");
   if (!button) return;
-  showView("list");
+  showView("list", { scrollY: listScrollY });
 });
 
 backButton.addEventListener("click", () => {
   if (!detailView.classList.contains("hidden")) {
-    showView("list");
+    showView("list", { scrollY: listScrollY });
     return;
   }
   showView("home");
