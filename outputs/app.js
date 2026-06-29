@@ -1643,6 +1643,178 @@ const mountainPhotos = {
     url: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Hakkyo01.JPG/1280px-Hakkyo01.JPG",
     file: "Hakkyo01.JPG",
   },
+  myoken: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/3/33/Mount_Myoken_%28Nose%291.jpg",
+    file: "Mount Myoken (Nose)1.jpg",
+  },
+  kabutoyama: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Hyogo_prefectural_Kabutoyama_Forest_Park04n4592.jpg/1280px-Hyogo_prefectural_Kabutoyama_Forest_Park04n4592.jpg",
+    file: "Hyogo prefectural Kabutoyama Forest Park04n4592.jpg",
+  },
+  nakayama: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/7/76/Nakayama_%28Hyogo%291.jpg",
+    file: "Nakayama (Hyogo)1.jpg",
+  },
+  hachibuse: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/2/20/Sumaurakoen_st01s2816.jpg",
+    file: "Sumaurakoen st01s2816.jpg",
+  },
+  yokoo: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/7/71/Mount_Higashi_%28Suma-ku%2C_Kobe%29_umanose.jpg",
+    file: "Mount Higashi (Suma-ku, Kobe) umanose.jpg",
+  },
+  arima_fuji: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/e/e1/ArimaFuji.jpg",
+    file: "ArimaFuji.jpg",
+  },
+  shosha: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/8/88/Mt.Shosha.jpg",
+    file: "Mt.Shosha.jpg",
+  },
+  masui: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/2/26/Mt.Masui_M9.jpg",
+    file: "Mt.Masui M9.jpg",
+  },
+  kobushi: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/c/ca/Ono_Alps.JPG",
+    file: "Ono Alps.JPG",
+  },
+  yuzuruha: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Yuzuruha_Mts_3.jpg",
+    file: "Yuzuruha Mts 3.jpg",
+  },
+  futakami: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/9/9b/Mount_Nijo%2C_zenkei.jpg",
+    file: "Mount Nijo, zenkei.jpg",
+  },
+  shigi: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/d/d2/Mount_Shigi1.jpg",
+    file: "Mount Shigi1.jpg",
+  },
+  takayasu: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/9/98/Mt_Takayasu.JPG",
+    file: "Mt Takayasu.JPG",
+  },
+  takaosan_osaka: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Takaoyama%2C_Osaka02.JPG/1280px-Takaoyama%2C_Osaka02.JPG",
+    file: "Takaoyama, Osaka02.JPG",
+  },
+  inunaki: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/a/ac/%E7%8A%AC%E9%B3%B4%E5%B1%B1%E4%B8%83%E5%AE%9D%E7%80%A7%E5%AF%BA%E3%81%AE%E8%BA%AB%E4%BB%A3%E4%B8%8D%E5%8B%95_%E6%B3%89%E4%BD%90%E9%87%8E%E5%B8%82_2013.11.23_-_panoramio.jpg",
+    file: "犬鳴山七宝瀧寺の身代不動 泉佐野市 2013.11.23 - panoramio.jpg",
+  },
+  amashi: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Ameyama_%28Kumatori%2C_Osaka%29_kyukeisho.jpg",
+    file: "Ameyama (Kumatori, Osaka) kyukeisho.jpg",
+  },
+  makio: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/1/13/Mount_Makio2.jpg",
+    file: "Mount Makio2.jpg",
+  },
+  iwawaki: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/5/57/MtIwawaki.JPG",
+    file: "MtIwawaki.JPG",
+  },
+  izumi_katsuragi: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/2/22/Izumi-Katuragisan-Hachidai-ryuoujinjya-2023april.jpg",
+    file: "Izumi-Katuragisan-Hachidai-ryuoujinjya-2023april.jpg",
+  },
+  takatori_nara: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Takatori_Castle_air.jpg",
+    file: "Takatori Castle air.jpg",
+  },
+  miwa: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/1/19/Mount_Miwa.jpg",
+    file: "Mount Miwa.jpg",
+  },
+  kasuga: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Mount_Mikasa_and_Mount_Hana%2C_enkei.jpg/1280px-Mount_Mikasa_and_Mount_Hana%2C_enkei.jpg",
+    file: "Mount Mikasa and Mount Hana, enkei.jpg",
+  },
+  yoshino: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/7/79/Cherry_blossoms_at_Yoshinoyama_01.jpg",
+    file: "Cherry blossoms at Yoshinoyama 01.jpg",
+  },
+  daimonji: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Nyoigatake_long_001.jpg/1280px-Nyoigatake_long_001.jpg",
+    file: "Nyoigatake long 001.jpg",
+  },
+  inari: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/f/fe/Fushimi_Inari_shrine_Senbon%28Thousand%29_torii_%2C_%E4%BC%8F%E8%A6%8B%E7%A8%B2%E8%8D%B7%E5%A4%A7%E7%A4%BE_%E5%8D%83%E6%9C%AC%E9%B3%A5%E5%B1%85_-_panoramio.jpg",
+    file: "Fushimi Inari shrine Senbon(Thousand) torii , 伏見稲荷大社 千本鳥居 - panoramio.jpg",
+  },
+  yoshidayama: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/8/84/Kyoto_Yoshidayama_20181202.jpg",
+    file: "Kyoto Yoshidayama 20181202.jpg",
+  },
+  kurama: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Kurama-dera_sanmon.jpg",
+    file: "Kurama-dera sanmon.jpg",
+  },
+  ushio: {
+    url: "https://image.jimcdn.com/app/cms/image/transf/none/path/s3845c98fff39244a/backgroundarea/ied303145fe243a0d/version/1552461481/image.jpg",
+    source: "https://www.hougonji.info/",
+    credit: "写真: 牛尾山 法厳寺",
+  },
+  mikami: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/1/11/Omi-fuji_2023.jpg",
+    file: "Omi-fuji 2023.jpg",
+  },
+  hachimanyama: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/a/ae/Yahatahachimanjo02.jpg",
+    file: "Yahatahachimanjo02.jpg",
+  },
+  shizugatake: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/0/02/Shizugatake_seen_from_the_NNE.jpg",
+    file: "Shizugatake seen from the NNE.jpg",
+  },
+  odani: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Odaniyama_from_Takatsuki_2009-2-8.jpg",
+    file: "Odaniyama from Takatsuki 2009-2-8.jpg",
+  },
+  iidoyama: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/d/d9/Hiking_trails_of_Mount_Handou_01.jpg",
+    file: "Hiking trails of Mount Handou 01.jpg",
+  },
+  nagusa: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/2/27/250830_Mount_Tengu%2C_Wakayama%2C_Japan07s3.jpg",
+    file: "250830 Mount Tengu, Wakayama, Japan07s3.jpg",
+  },
+  takatsuko: {
+    url: "https://axi-w.jp/wp2023/wp-content/uploads/2023/04/001.jpg",
+    source: "https://axi-w.jp/play/takozusiyama/",
+    credit: "写真: 和歌山市観光協会",
+  },
+  oyama_kyoto: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/c/ce/Mt.Oe.jpg",
+    file: "Mt.Oe.jpg",
+  },
+  yura: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/6/61/Mt.Yuragatake.jpg",
+    file: "Mt.Yuragatake.jpg",
+  },
+  mitsumine: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/3/33/%E3%81%BF%E3%81%A4%E3%81%88%E9%9D%92%E5%B0%91%E5%B9%B4%E6%97%85%E8%A1%8C%E6%9D%91%E4%BB%98%E8%BF%91%E3%81%8B%E3%82%89%E8%A6%8B%E3%81%9F%E4%B8%89%E5%B3%B0%E5%B1%B1.jpg",
+    file: "みつえ青少年旅行村付近から見た三峰山.jpg",
+  },
+  takami: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Takamisan01.JPG",
+    file: "Takamisan01.JPG",
+  },
+  kannonmine: {
+    url: "https://upload.wikimedia.org/wikipedia/commons/c/c5/2010-10-18_%E8%A6%B3%E9%9F%B3%E5%B3%B0%E5%B1%B1_-_panoramio.jpg",
+    file: "2010-10-18 観音峰山 - panoramio.jpg",
+  },
+  yamanoabe: {
+    url: "https://www.naracity-guide.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MzIzOCwicHVyIjoiYmxvYl9pZCJ9fQ==--03061fb4d92cf1c4ba5593dcdb5dca74e8a215d6/eyJfcmFpbHMiOnsiZGF0YSI6eyJmb3JtYXQiOiJ3ZWJwIiwicmVzaXplX3RvX2ZpdCI6WzEwMjQsbnVsbF19LCJwdXIiOiJ2YXJpYXRpb24ifX0=--ccfbaec608ef4c396ab8f145b50415baececafc7/%E5%A4%A9%E7%90%86%E5%B8%82_%E9%BE%8D%E7%8E%8B%E5%B1%B1_240521.jpg",
+    source: "https://www.naracity-guide.com/zh-cn/spots/238",
+    credit: "写真: 奈良市観光協会",
+  },
+  matsuo_ikaruga: {
+    url: "https://yamatoji.nara-kankou.or.jp/contents/images/0000000214/dff72a944bae5d88886d84994ad06716.jpg",
+    source: "https://yamatoji.nara-kankou.or.jp/01shaji/02tera/02west_area/matsuodera/",
+    credit: "写真: 奈良県観光公式サイト",
+  },
 };
 
 function escapeHtml(value) {
