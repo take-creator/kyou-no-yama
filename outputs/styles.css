@@ -362,9 +362,9 @@ main {
 
 .time-options label.selected,
 .time-options label:has(input:checked) {
-  border-color: var(--forest);
-  background: var(--forest);
-  color: #fff;
+  border-color: rgba(36, 93, 69, 0.42);
+  background: #e7f0e4;
+  color: var(--forest-dark);
 }
 
 .primary-button,
