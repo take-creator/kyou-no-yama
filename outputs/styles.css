@@ -822,6 +822,16 @@ main {
   border-top: 1px solid rgba(210, 220, 207, 0.86);
 }
 
+.onsen-empty {
+  margin: 0;
+  border-bottom: 1px solid rgba(210, 220, 207, 0.86);
+  padding: 22px 0;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
 .onsen-item {
   display: grid;
   grid-template-columns: minmax(0, 1fr) clamp(118px, 18vw, 150px);

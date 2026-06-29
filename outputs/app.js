@@ -1947,18 +1947,20 @@ function mapsSearchUrl(query) {
 }
 
 function nearbyOnsenFor(mountain) {
-  const suggestions = onsenSuggestions[mountain.id] ?? [
-    {
-      name: `${mountain.trailheadName}周辺の温泉・日帰り入浴`,
-      area: mountain.area,
-      accessMinutes: 30,
-      category: "日帰り入浴",
-      note: "現在営業している施設はGoogle Mapsで確認してください。",
-    },
-  ];
-  return suggestions
-    .filter((onsen) => !onsen.accessMinutes || onsen.accessMinutes <= 30)
-    .sort((first, second) => (first.accessMinutes ?? 30) - (second.accessMinutes ?? 30));
+  const suggestions = [...(onsenSuggestions[mountain.id] ?? [])].sort(
+    (first, second) => (first.accessMinutes ?? Number.POSITIVE_INFINITY) - (second.accessMinutes ?? Number.POSITIVE_INFINITY),
+  );
+  const withinThirtyMinutes = suggestions.filter((onsen) => onsen.accessMinutes && onsen.accessMinutes <= 30);
+  if (withinThirtyMinutes.length > 0) {
+    return { items: withinThirtyMinutes, rangeMinutes: 30 };
+  }
+
+  const withinSixtyMinutes = suggestions.filter((onsen) => onsen.accessMinutes && onsen.accessMinutes <= 60);
+  if (withinSixtyMinutes.length > 0) {
+    return { items: withinSixtyMinutes, rangeMinutes: 60 };
+  }
+
+  return { items: [], rangeMinutes: null };
 }
 
 function formatOnsenAccess(onsen) {
@@ -2126,52 +2128,56 @@ function renderAccessSection(mountain) {
 }
 
 function renderOnsenSection(mountain) {
-  const onsenItems = nearbyOnsenFor(mountain)
-    .map((onsen, index) => {
-      const photo = onsenPhotoFor(mountain, onsen, index);
-      const query = `${onsen.name} ${onsen.area}`;
-      const photoMarkup = photo
-        ? `
-          <div class="onsen-photo-frame">
-            <img
-              class="onsen-photo"
-              src="${escapeHtml(photo.url)}"
-              alt="${escapeHtml(`${onsen.name}の公式写真`)}"
-              loading="lazy"
-              referrerpolicy="no-referrer"
-              onerror="this.closest('.onsen-photo-frame').classList.add('onsen-photo-frame--missing'); this.remove();"
-            />
-            <span class="onsen-photo-label">${escapeHtml(photo.label)}</span>
-            ${photoCreditLink(photo)}
-          </div>
-        `
-        : `
-          <a class="onsen-photo-frame onsen-photo-frame--missing" href="${mapsSearchUrl(`${query} 写真`)}" target="_blank" rel="noopener">
-            <span class="onsen-photo-label">${escapeHtml(onsen.name)}</span>
-            <strong>Google Mapsで写真を見る</strong>
-          </a>
-        `;
-      return `
-        <div class="onsen-item">
-          ${photoMarkup}
-          <div class="onsen-copy">
-            <div class="onsen-meta-row">
-              <span class="onsen-time">登山口・下山地から ${escapeHtml(formatOnsenAccess(onsen))}</span>
-              <span class="onsen-category">${escapeHtml(onsen.category ?? "入浴施設")}</span>
-            </div>
-            <h3>${escapeHtml(onsen.name)}</h3>
-            <p class="onsen-area">${escapeHtml(onsen.area)}</p>
-            <p>${escapeHtml(onsen.note)}</p>
-          </div>
-          <a class="map-link-button" href="${mapsSearchUrl(query)}" target="_blank" rel="noopener">Maps</a>
-        </div>
-      `;
-    })
-    .join("");
+  const nearbyOnsen = nearbyOnsenFor(mountain);
+  const onsenItems =
+    nearbyOnsen.items.length > 0
+      ? nearbyOnsen.items
+          .map((onsen, index) => {
+            const photo = onsenPhotoFor(mountain, onsen, index);
+            const query = `${onsen.name} ${onsen.area}`;
+            const photoMarkup = photo
+              ? `
+                <div class="onsen-photo-frame">
+                  <img
+                    class="onsen-photo"
+                    src="${escapeHtml(photo.url)}"
+                    alt="${escapeHtml(`${onsen.name}の公式写真`)}"
+                    loading="lazy"
+                    referrerpolicy="no-referrer"
+                    onerror="this.closest('.onsen-photo-frame').classList.add('onsen-photo-frame--missing'); this.remove();"
+                  />
+                  <span class="onsen-photo-label">${escapeHtml(photo.label)}</span>
+                  ${photoCreditLink(photo)}
+                </div>
+              `
+              : `
+                <a class="onsen-photo-frame onsen-photo-frame--missing" href="${mapsSearchUrl(`${query} 写真`)}" target="_blank" rel="noopener">
+                  <span class="onsen-photo-label">${escapeHtml(onsen.name)}</span>
+                  <strong>Google Mapsで写真を見る</strong>
+                </a>
+              `;
+            return `
+              <div class="onsen-item">
+                ${photoMarkup}
+                <div class="onsen-copy">
+                  <div class="onsen-meta-row">
+                    <span class="onsen-time">登山口・下山地から ${escapeHtml(formatOnsenAccess(onsen))}</span>
+                    <span class="onsen-category">${escapeHtml(onsen.category ?? "入浴施設")}</span>
+                  </div>
+                  <h3>${escapeHtml(onsen.name)}</h3>
+                  <p class="onsen-area">${escapeHtml(onsen.area)}</p>
+                  <p>${escapeHtml(onsen.note)}</p>
+                </div>
+                <a class="map-link-button" href="${mapsSearchUrl(query)}" target="_blank" rel="noopener">Maps</a>
+              </div>
+            `;
+          })
+          .join("")
+      : `<p class="onsen-empty">なし</p>`;
 
   return `
     <div class="detail-section support-section">
-      <h2>30分以内の温泉・スーパー銭湯</h2>
+      <h2>近くの温泉</h2>
       <div class="onsen-list">${onsenItems}</div>
       <p class="support-note">表示時間は登山口または主な下山地点からの目安です。営業時間、定休日、日帰り入浴の可否は変わるため、出発前に公式情報かGoogle Mapsで確認してください。</p>
       <div class="map-actions">
