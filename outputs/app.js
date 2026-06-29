@@ -1066,6 +1066,7 @@ const resultTitle = document.querySelector("#resultTitle");
 const resultCount = document.querySelector("#resultCount");
 const mountainCards = document.querySelector("#mountainCards");
 const emptyState = document.querySelector("#emptyState");
+const listBackButton = document.querySelector("#listBackButton");
 const topbar = document.querySelector(".topbar");
 const backButton = document.querySelector("#backButton");
 const timeOptions = document.querySelector("#timeOptions");
@@ -2396,6 +2397,10 @@ backButton.addEventListener("click", () => {
     showView("list");
     return;
   }
+  showView("home");
+});
+
+listBackButton?.addEventListener("click", () => {
   showView("home");
 });
 

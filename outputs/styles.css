@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;600&display=swap");
+
 :root {
   color-scheme: light;
   --ink: #18221e;
@@ -14,8 +16,8 @@
   --amber: #e2ad45;
   --warning: #81551e;
   font-family:
-    "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans",
-    "Yu Gothic", "YuGothic", "Segoe UI", sans-serif;
+    "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro",
+    "Yu Gothic", "YuGothic", "Hiragino Sans", "Segoe UI", sans-serif;
 }
 
 * {
@@ -1008,6 +1010,12 @@ main {
   display: flex;
   justify-content: center;
   padding-top: 8px;
+}
+
+.list-bottom-actions {
+  display: flex;
+  justify-content: center;
+  padding-top: 22px;
 }
 
 .detail-back-button {
