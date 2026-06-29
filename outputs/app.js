@@ -2273,7 +2273,59 @@ function accessHintFor(mountain) {
   };
 }
 
-function renderAccessRouteCard({ title, minutes, steps, mapUrl, buttonLabel, modifier = "" }) {
+const approachTimeOverrides = {
+  rokko: { transitFrom: "阪急芦屋川駅", transitMinutes: 25, carMinutes: 10 },
+  maya: { transitFrom: "新神戸駅", transitMinutes: 15, carMinutes: 5 },
+  satsuki: { transitFrom: "阪急池田駅", transitMinutes: 10, carMinutes: 5 },
+  konosan: { transitFrom: "私市駅", transitMinutes: 20, carMinutes: 5 },
+  hiei: { transitFrom: "修学院駅", transitMinutes: 25, carMinutes: 10 },
+  atago: { transitFrom: "清滝バス停", transitMinutes: 5, carMinutes: 5 },
+  ibuki: { transitFrom: "伊吹登山口バス停", transitMinutes: 5, carMinutes: 5 },
+  buna: { transitFrom: "坊村バス停", transitMinutes: 5, carMinutes: 5 },
+  futakami: { transitFrom: "近鉄二上山駅", transitMinutes: 10, carMinutes: 5 },
+  daimonji: { transitFrom: "銀閣寺道バス停", transitMinutes: 10, carMinutes: 10 },
+  kurama: { transitFrom: "鞍馬駅", transitMinutes: 5, carMinutes: 5 },
+};
+
+function lastTransitPointLabel(routeHint, mountain) {
+  const override = approachTimeOverrides[mountain.id]?.transitFrom;
+  if (override) return override;
+
+  const candidates = routeHint.transitVia
+    .split(/[・、]/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  const lastCandidate = candidates[candidates.length - 1];
+  if (!lastCandidate || lastCandidate.includes("方面")) return "最寄り駅・バス停";
+  return lastCandidate;
+}
+
+function estimatedTransitApproachMinutes(mountain) {
+  const override = approachTimeOverrides[mountain.id]?.transitMinutes;
+  if (override) return override;
+
+  const trailheadName = mountain.trailheadName;
+  if (/駅/.test(trailheadName)) return 8;
+  if (/バス停|登山口|ロープウェイ|山麓駅|ビジターセンター|ゲート/.test(trailheadName)) return 3;
+  if (/公園|神社|大社|寺|温泉/.test(trailheadName)) return 5;
+  return 10;
+}
+
+function estimatedParkingApproachMinutes(mountain) {
+  const override = approachTimeOverrides[mountain.id]?.carMinutes;
+  if (override) return override;
+
+  const trailheadName = mountain.trailheadName;
+  if (/駅|バス停/.test(trailheadName)) return 5;
+  if (/登山口|ロープウェイ|山麓駅|ビジターセンター|ゲート|公園|神社|大社|寺|温泉/.test(trailheadName)) return 3;
+  return 5;
+}
+
+function formatWalkingMinutes(minutes) {
+  return minutes <= 1 ? "徒歩すぐ" : `徒歩約${minutes}分`;
+}
+
+function renderAccessRouteCard({ title, minutes, steps, approach, mapUrl, buttonLabel, modifier = "" }) {
   const stepItems = steps
     .map(
       (step) => `
@@ -2296,6 +2348,10 @@ function renderAccessRouteCard({ title, minutes, steps, mapUrl, buttonLabel, mod
         <strong>${formatHours(minutes)}</strong>
       </div>
       <ol class="route-line">${stepItems}</ol>
+      <div class="approach-time">
+        <span>アプローチ時間</span>
+        <strong>${escapeHtml(approach)}</strong>
+      </div>
       <a class="map-link-button" href="${mapUrl}" target="_blank" rel="noopener">${escapeHtml(buttonLabel)}</a>
     </div>
   `;
@@ -2305,15 +2361,18 @@ function renderAccessSection(mountain) {
   const transitMinutes = estimatedAccessMinutes(mountain, state.origin);
   const drivingMinutes = estimatedDrivingAccessMinutes(mountain);
   const routeHint = accessHintFor(mountain);
+  const transitApproachFrom = lastTransitPointLabel(routeHint, mountain);
+  const transitApproach = `${transitApproachFrom}から登山口まで ${formatWalkingMinutes(estimatedTransitApproachMinutes(mountain))}`;
+  const drivingApproach = `周辺駐車場から登山口まで ${formatWalkingMinutes(estimatedParkingApproachMinutes(mountain))}`;
   const transitSteps = [
     { badge: "発", title: state.origin, detail: "現在地・出発地" },
     { badge: "乗換", title: routeHint.transitVia, detail: "電車・バスを乗り継いで登山口方面へ" },
-    { badge: "着", title: mountain.trailheadName, detail: "登山口・山歩きスタート地点" },
+    { badge: "着", title: transitApproachFrom, detail: "登山口に近い駅・バス停" },
   ];
   const drivingSteps = [
     { badge: "発", title: state.origin, detail: "現在地・出発地" },
     { badge: "経由", title: routeHint.carVia, detail: "道路状況と駐車場を確認しながら移動" },
-    { badge: "着", title: mountain.trailheadName, detail: "登山口または周辺駐車場" },
+    { badge: "駐車", title: "周辺駐車場", detail: `${mountain.trailheadName}付近の駐車場` },
   ];
 
   return `
@@ -2324,6 +2383,7 @@ function renderAccessSection(mountain) {
           title: "電車・バス",
           minutes: transitMinutes,
           steps: transitSteps,
+          approach: transitApproach,
           mapUrl: googleMapsUrl(mountain, "transit"),
           buttonLabel: "電車で開く",
         })}
@@ -2331,12 +2391,13 @@ function renderAccessSection(mountain) {
           title: "車",
           minutes: drivingMinutes,
           steps: drivingSteps,
+          approach: drivingApproach,
           mapUrl: googleMapsUrl(mountain, "driving"),
           buttonLabel: "車で開く",
           modifier: "access-route-card--car",
         })}
       </div>
-      <p class="support-note">表示時間はMVP用の目安です。実際の所要時間、乗換、駐車場の位置はGoogle Mapsで確認してください。</p>
+      <p class="support-note">表示時間とアプローチ時間はMVP用の目安です。実際の所要時間、乗換、駐車場の位置はGoogle Mapsで確認してください。</p>
     </div>
   `;
 }

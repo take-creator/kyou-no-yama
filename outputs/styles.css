@@ -817,6 +817,29 @@ main {
   line-height: 1.65;
 }
 
+.approach-time {
+  display: grid;
+  gap: 5px;
+  border: 1px solid rgba(36, 93, 69, 0.12);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #e7f0e4;
+}
+
+.approach-time span {
+  color: var(--forest-dark);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.approach-time strong {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
 .support-note {
   margin: 0;
   color: var(--muted);
