@@ -2293,16 +2293,16 @@ function renderList() {
     const card = document.createElement("article");
     card.className = "mountain-card";
     card.innerHTML = `
-      <div class="photo-frame">
-        <img class="mountain-image" src="${photo.url}" alt="${mountain.name}の写真" loading="lazy" referrerpolicy="no-referrer" onerror="this.src='${fallbackPhotoUrl}'; this.classList.add('image-fallback');" />
-        ${photoCreditLink(photo)}
-      </div>
       <div class="card-top">
         <div>
           <h3>${mountain.name}</h3>
           <p class="area">${mountain.area}</p>
         </div>
         <span class="badge">${mountain.difficulty}</span>
+      </div>
+      <div class="photo-frame">
+        <img class="mountain-image" src="${photo.url}" alt="${mountain.name}の写真" loading="lazy" referrerpolicy="no-referrer" onerror="this.src='${fallbackPhotoUrl}'; this.classList.add('image-fallback');" />
+        ${photoCreditLink(photo)}
       </div>
       <div class="meta-grid">
         <div class="meta"><span>目安移動時間</span><strong>${formatHours(accessMinutes)}</strong></div>
