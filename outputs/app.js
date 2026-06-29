@@ -1071,6 +1071,92 @@ const backButton = document.querySelector("#backButton");
 const timeOptions = document.querySelector("#timeOptions");
 const originButtons = Array.from(document.querySelectorAll("[data-origin]"));
 const fallbackPhotoUrl = "./assets/mountain-mark.png";
+const defaultOriginName = "大阪駅";
+const originStationProfiles = {
+  "大阪駅": {
+    name: "大阪駅",
+    lat: 34.7025,
+    lng: 135.4959,
+    aliases: ["大阪", "梅田", "大阪梅田", "大阪駅", "梅田駅"],
+  },
+  "京都駅": {
+    name: "京都駅",
+    lat: 34.9858,
+    lng: 135.7588,
+    aliases: ["京都", "京都駅"],
+  },
+  "近鉄奈良駅": {
+    name: "近鉄奈良駅",
+    lat: 34.6844,
+    lng: 135.8279,
+    aliases: ["奈良", "奈良駅", "近鉄奈良", "近鉄奈良駅"],
+  },
+  "和歌山駅": {
+    name: "和歌山駅",
+    lat: 34.2326,
+    lng: 135.1912,
+    aliases: ["和歌山", "和歌山駅"],
+  },
+  "大津駅": {
+    name: "大津駅",
+    lat: 35.0037,
+    lng: 135.8646,
+    aliases: ["滋賀", "大津", "大津駅"],
+  },
+  "三ノ宮駅": {
+    name: "三ノ宮駅",
+    lat: 34.6941,
+    lng: 135.1955,
+    aliases: ["兵庫", "神戸", "三宮", "三ノ宮", "三宮駅", "三ノ宮駅"],
+  },
+};
+const osakaStationProfile = originStationProfiles[defaultOriginName];
+
+function currentOriginName() {
+  return originInput.value.trim() || defaultOriginName;
+}
+
+function normalizeOriginName(origin) {
+  const compactOrigin = String(origin || "")
+    .replace(/\s/g, "")
+    .toLowerCase();
+  if (!compactOrigin || compactOrigin === "現在地") return defaultOriginName;
+
+  const match = Object.values(originStationProfiles).find((profile) =>
+    profile.aliases.some((alias) => alias.replace(/\s/g, "").toLowerCase() === compactOrigin),
+  );
+  return match?.name ?? origin;
+}
+
+function originProfileFor(origin) {
+  return originStationProfiles[normalizeOriginName(origin)];
+}
+
+function distanceKm(from, to) {
+  const earthRadiusKm = 6371;
+  const toRadians = (degrees) => (degrees * Math.PI) / 180;
+  const dLat = toRadians(to.lat - from.lat);
+  const dLng = toRadians(to.lng - from.lng);
+  const lat1 = toRadians(from.lat);
+  const lat2 = toRadians(to.lat);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+  return earthRadiusKm * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function estimatedAccessMinutes(mountain, origin = currentOriginName()) {
+  const originProfile = originProfileFor(origin);
+  if (!originProfile || originProfile.name === defaultOriginName) {
+    return mountain.estimatedAccessMinutesFromOsaka;
+  }
+
+  const trailhead = { lat: mountain.trailheadLat, lng: mountain.trailheadLng };
+  const osakaDistance = distanceKm(osakaStationProfile, trailhead);
+  const originDistance = distanceKm(originProfile, trailhead);
+  const adjustedMinutes = mountain.estimatedAccessMinutesFromOsaka + (originDistance - osakaDistance) * 1.15;
+  return Math.min(300, Math.max(20, roundToFive(adjustedMinutes)));
+}
 function bathSuggestion(name, area, accessMinutes, category, note, photoKey) {
   return { name, area, accessMinutes, category, note, photoKey };
 }
@@ -1955,7 +2041,7 @@ function roundToFive(minutes) {
 }
 
 function estimatedDrivingAccessMinutes(mountain) {
-  const trainMinutes = mountain.estimatedAccessMinutesFromOsaka;
+  const trainMinutes = estimatedAccessMinutes(mountain, state.origin);
   if (trainMinutes <= 45) return Math.max(25, roundToFive(trainMinutes - 10));
   if (trainMinutes <= 90) return roundToFive(trainMinutes * 0.82);
   if (trainMinutes <= 150) return roundToFive(trainMinutes * 0.78);
@@ -1998,7 +2084,7 @@ function renderAccessRouteCard({ title, minutes, steps, mapUrl, buttonLabel, mod
 }
 
 function renderAccessSection(mountain) {
-  const transitMinutes = mountain.estimatedAccessMinutesFromOsaka;
+  const transitMinutes = estimatedAccessMinutes(mountain, state.origin);
   const drivingMinutes = estimatedDrivingAccessMinutes(mountain);
   const routeHint = accessHintFor(mountain);
   const transitSteps = [
@@ -2108,14 +2194,14 @@ function getTimeRange(minutes) {
   };
 }
 
-function isMountainInTimeRange(mountain, minutes) {
+function isMountainInTimeRange(mountain, minutes, origin = currentOriginName()) {
   const range = getTimeRange(minutes);
-  const accessMinutes = mountain.estimatedAccessMinutesFromOsaka;
+  const accessMinutes = estimatedAccessMinutes(mountain, origin);
   return accessMinutes > range.minExclusive && accessMinutes <= range.maxInclusive;
 }
 
-function hasMountainsForTimeRange(minutes) {
-  return mountains.some((mountain) => isMountainInTimeRange(mountain, minutes));
+function hasMountainsForTimeRange(minutes, origin = currentOriginName()) {
+  return mountains.some((mountain) => isMountainInTimeRange(mountain, minutes, origin));
 }
 
 function formatTimeRange(minutes) {
@@ -2124,13 +2210,13 @@ function formatTimeRange(minutes) {
   return `${range.minExclusive + 1}〜${minutes}分`;
 }
 
-function updateAvailableTimeOptions() {
+function updateAvailableTimeOptions(origin = currentOriginName()) {
   const inputs = Array.from(timeOptions.querySelectorAll('input[name="minutes"]'));
   let firstAvailableInput = null;
 
   inputs.forEach((input) => {
     const minutes = Number(input.value);
-    const isAvailable = hasMountainsForTimeRange(minutes);
+    const isAvailable = hasMountainsForTimeRange(minutes, origin);
     input.disabled = !isAvailable;
     input.closest("label").classList.toggle("hidden", !isAvailable);
 
@@ -2176,12 +2262,12 @@ function getSelectedMinutes() {
 }
 
 function searchMountains() {
-  updateAvailableTimeOptions();
-  state.origin = originInput.value.trim() || "大阪駅";
+  state.origin = currentOriginName();
+  updateAvailableTimeOptions(state.origin);
   state.maxMinutes = getSelectedMinutes();
   state.currentResults = mountains
-    .filter((mountain) => isMountainInTimeRange(mountain, state.maxMinutes))
-    .sort((a, b) => a.estimatedAccessMinutesFromOsaka - b.estimatedAccessMinutesFromOsaka);
+    .filter((mountain) => isMountainInTimeRange(mountain, state.maxMinutes, state.origin))
+    .sort((a, b) => estimatedAccessMinutes(a, state.origin) - estimatedAccessMinutes(b, state.origin));
 
   renderList();
   showView("list");
@@ -2202,6 +2288,7 @@ function renderList() {
 
   state.currentResults.forEach((mountain) => {
     const photo = photoFor(mountain);
+    const accessMinutes = estimatedAccessMinutes(mountain, state.origin);
     const card = document.createElement("article");
     card.className = "mountain-card";
     card.innerHTML = `
@@ -2217,7 +2304,7 @@ function renderList() {
         <span class="badge">${mountain.difficulty}</span>
       </div>
       <div class="meta-grid">
-        <div class="meta"><span>目安移動時間</span><strong>${formatHours(mountain.estimatedAccessMinutesFromOsaka)}</strong></div>
+        <div class="meta"><span>目安移動時間</span><strong>${formatHours(accessMinutes)}</strong></div>
         <div class="meta"><span>登山口</span><strong>${mountain.trailheadName}</strong></div>
         <div class="meta"><span>登山時間</span><strong>${formatHours(mountain.hikingMinutes)}</strong></div>
         <div class="meta"><span>標高</span><strong>${mountain.elevation}m</strong></div>
@@ -2262,7 +2349,7 @@ function renderDetail(id) {
             <div class="info-row"><dt>難易度</dt><dd>${mountain.difficulty}</dd></div>
             <div class="info-row"><dt>登山口</dt><dd>${mountain.trailheadName}</dd></div>
             <div class="info-row"><dt>登山時間</dt><dd>${formatHours(mountain.hikingMinutes)}</dd></div>
-            <div class="info-row"><dt>電車・バス目安</dt><dd>${formatHours(mountain.estimatedAccessMinutesFromOsaka)}</dd></div>
+            <div class="info-row"><dt>電車・バス目安</dt><dd>${formatHours(estimatedAccessMinutes(mountain, state.origin))}</dd></div>
           </dl>
         </div>
         ${renderAccessSection(mountain)}
@@ -2312,12 +2399,16 @@ backButton.addEventListener("click", () => {
   showView("home");
 });
 
-originInput.addEventListener("input", updateOriginButtonState);
+originInput.addEventListener("input", () => {
+  updateOriginButtonState();
+  updateAvailableTimeOptions();
+});
 timeOptions.addEventListener("change", updateSelectedTimeOptionState);
 originButtons.forEach((button) => {
   button.addEventListener("click", () => {
     originInput.value = button.dataset.origin;
     updateOriginButtonState();
+    updateAvailableTimeOptions();
   });
 });
 updateAvailableTimeOptions();
