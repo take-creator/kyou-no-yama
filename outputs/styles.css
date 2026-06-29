@@ -739,6 +739,7 @@ main {
   display: grid;
   position: relative;
   grid-template-columns: 48px 24px minmax(0, 1fr);
+  grid-template-rows: auto auto;
   gap: 10px;
   min-height: 74px;
 }
@@ -764,6 +765,7 @@ main {
 .route-rail {
   position: relative;
   display: flex;
+  grid-row: 1 / span 2;
   justify-content: center;
   align-self: stretch;
 }
@@ -817,27 +819,16 @@ main {
   line-height: 1.65;
 }
 
-.approach-time {
-  display: grid;
-  gap: 5px;
-  border: 1px solid rgba(36, 93, 69, 0.12);
-  border-radius: 12px;
-  padding: 10px 12px;
+.route-segment-time {
+  grid-column: 3;
+  justify-self: start;
+  border-radius: 999px;
+  padding: 5px 9px;
   background: #e7f0e4;
-}
-
-.approach-time span {
   color: var(--forest-dark);
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
-}
-
-.approach-time strong {
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.55;
 }
 
 .support-note {

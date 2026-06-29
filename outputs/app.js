@@ -2325,7 +2325,106 @@ function formatWalkingMinutes(minutes) {
   return minutes <= 1 ? "徒歩すぐ" : `徒歩約${minutes}分`;
 }
 
-function renderAccessRouteCard({ title, minutes, steps, approach, mapUrl, buttonLabel, modifier = "" }) {
+const routeOperatorNames = new Set(["JR", "近鉄", "阪急", "阪神", "京阪", "南海", "能勢電鉄", "叡山電鉄", "泉北高速", "山陽電鉄", "京都丹後鉄道"]);
+
+function splitRoutePoints(routeText) {
+  const parts = routeText
+    .split(/[・、]/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  const points = [];
+
+  for (let index = 0; index < parts.length; index += 1) {
+    const part = parts[index];
+    const nextPart = parts[index + 1];
+    if (routeOperatorNames.has(part) && nextPart) {
+      points.push(`${part}・${nextPart}`);
+      index += 1;
+    } else {
+      points.push(part);
+    }
+  }
+
+  return points;
+}
+
+function uniqueRoutePoints(points) {
+  const seen = new Set();
+  return points.filter((point) => {
+    if (seen.has(point)) return false;
+    seen.add(point);
+    return true;
+  });
+}
+
+function distributeSegmentMinutes(totalMinutes, finalWalkingMinutes, segmentCount) {
+  if (segmentCount <= 0) return [];
+  if (segmentCount === 1) return [finalWalkingMinutes];
+
+  const travelSegmentCount = segmentCount - 1;
+  const travelTotal = Math.max(travelSegmentCount * 5, totalMinutes - finalWalkingMinutes);
+  const travelSegments = [];
+  let usedMinutes = 0;
+
+  for (let index = 0; index < travelSegmentCount; index += 1) {
+    const remainingSegments = travelSegmentCount - index;
+    const rawMinutes = (travelTotal - usedMinutes) / remainingSegments;
+    const segmentMinutes =
+      index === travelSegmentCount - 1 ? Math.max(5, roundToFive(travelTotal - usedMinutes)) : Math.max(5, roundToFive(rawMinutes));
+    travelSegments.push(segmentMinutes);
+    usedMinutes += segmentMinutes;
+  }
+
+  return [...travelSegments, finalWalkingMinutes];
+}
+
+function applySegmentLabels(steps, segmentMinutes) {
+  return steps.map((step, index) => {
+    if (index >= steps.length - 1) return step;
+    const isApproachSegment = index === steps.length - 2;
+    return {
+      ...step,
+      segmentAfter: isApproachSegment ? formatWalkingMinutes(segmentMinutes[index]) : `約${segmentMinutes[index]}分`,
+    };
+  });
+}
+
+function buildTransitRouteSteps(mountain, routeHint, totalMinutes) {
+  const nearestPoint = lastTransitPointLabel(routeHint, mountain);
+  const routePoints = uniqueRoutePoints(splitRoutePoints(routeHint.transitVia).filter((point) => !point.includes("方面")));
+  if (!routePoints.includes(nearestPoint)) {
+    routePoints.push(nearestPoint);
+  }
+
+  const steps = [
+    { badge: "発", title: state.origin, detail: "現在地・出発地" },
+    ...routePoints.map((point, index) => {
+      const isNearestPoint = index === routePoints.length - 1;
+      return {
+        badge: isNearestPoint ? "最寄" : "乗換",
+        title: point,
+        detail: isNearestPoint ? "登山口に近い駅・バス停" : "乗り換え・経由地",
+      };
+    }),
+    { badge: "着", title: mountain.trailheadName, detail: "登山口・山歩きスタート地点" },
+  ];
+
+  return applySegmentLabels(steps, distributeSegmentMinutes(totalMinutes, estimatedTransitApproachMinutes(mountain), steps.length - 1));
+}
+
+function buildDrivingRouteSteps(mountain, routeHint, totalMinutes) {
+  const routePoints = uniqueRoutePoints(splitRoutePoints(routeHint.carVia));
+  const steps = [
+    { badge: "発", title: state.origin, detail: "現在地・出発地" },
+    ...routePoints.map((point) => ({ badge: "経由", title: point, detail: "道路・方面の目安" })),
+    { badge: "駐車", title: "周辺駐車場", detail: `${mountain.trailheadName}付近の駐車場` },
+    { badge: "着", title: mountain.trailheadName, detail: "登山口・山歩きスタート地点" },
+  ];
+
+  return applySegmentLabels(steps, distributeSegmentMinutes(totalMinutes, estimatedParkingApproachMinutes(mountain), steps.length - 1));
+}
+
+function renderAccessRouteCard({ title, minutes, steps, mapUrl, buttonLabel, modifier = "" }) {
   const stepItems = steps
     .map(
       (step) => `
@@ -2336,6 +2435,7 @@ function renderAccessRouteCard({ title, minutes, steps, approach, mapUrl, button
             <h3>${escapeHtml(step.title)}</h3>
             <p>${escapeHtml(step.detail)}</p>
           </div>
+          ${step.segmentAfter ? `<span class="route-segment-time">${escapeHtml(step.segmentAfter)}</span>` : ""}
         </li>
       `,
     )
@@ -2348,10 +2448,6 @@ function renderAccessRouteCard({ title, minutes, steps, approach, mapUrl, button
         <strong>${formatHours(minutes)}</strong>
       </div>
       <ol class="route-line">${stepItems}</ol>
-      <div class="approach-time">
-        <span>アプローチ時間</span>
-        <strong>${escapeHtml(approach)}</strong>
-      </div>
       <a class="map-link-button" href="${mapUrl}" target="_blank" rel="noopener">${escapeHtml(buttonLabel)}</a>
     </div>
   `;
@@ -2361,19 +2457,8 @@ function renderAccessSection(mountain) {
   const transitMinutes = estimatedAccessMinutes(mountain, state.origin);
   const drivingMinutes = estimatedDrivingAccessMinutes(mountain);
   const routeHint = accessHintFor(mountain);
-  const transitApproachFrom = lastTransitPointLabel(routeHint, mountain);
-  const transitApproach = `${transitApproachFrom}から登山口まで ${formatWalkingMinutes(estimatedTransitApproachMinutes(mountain))}`;
-  const drivingApproach = `周辺駐車場から登山口まで ${formatWalkingMinutes(estimatedParkingApproachMinutes(mountain))}`;
-  const transitSteps = [
-    { badge: "発", title: state.origin, detail: "現在地・出発地" },
-    { badge: "乗換", title: routeHint.transitVia, detail: "電車・バスを乗り継いで登山口方面へ" },
-    { badge: "着", title: transitApproachFrom, detail: "登山口に近い駅・バス停" },
-  ];
-  const drivingSteps = [
-    { badge: "発", title: state.origin, detail: "現在地・出発地" },
-    { badge: "経由", title: routeHint.carVia, detail: "道路状況と駐車場を確認しながら移動" },
-    { badge: "駐車", title: "周辺駐車場", detail: `${mountain.trailheadName}付近の駐車場` },
-  ];
+  const transitSteps = buildTransitRouteSteps(mountain, routeHint, transitMinutes);
+  const drivingSteps = buildDrivingRouteSteps(mountain, routeHint, drivingMinutes);
 
   return `
     <div class="detail-section support-section">
@@ -2383,7 +2468,6 @@ function renderAccessSection(mountain) {
           title: "電車・バス",
           minutes: transitMinutes,
           steps: transitSteps,
-          approach: transitApproach,
           mapUrl: googleMapsUrl(mountain, "transit"),
           buttonLabel: "電車で開く",
         })}
@@ -2391,7 +2475,6 @@ function renderAccessSection(mountain) {
           title: "車",
           minutes: drivingMinutes,
           steps: drivingSteps,
-          approach: drivingApproach,
           mapUrl: googleMapsUrl(mountain, "driving"),
           buttonLabel: "車で開く",
           modifier: "access-route-card--car",
