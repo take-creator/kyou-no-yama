@@ -2719,8 +2719,6 @@ function renderDetail(id) {
             <div class="info-row"><dt>電車・バス目安</dt><dd>${formatHours(estimatedAccessMinutes(mountain, state.origin))}</dd></div>
           </dl>
         </div>
-        ${renderAccessSection(mountain)}
-        ${renderOnsenSection(mountain)}
         <div class="detail-section">
           <h2>おすすめポイント</h2>
           <ul class="bullet-list">
@@ -2730,6 +2728,10 @@ function renderDetail(id) {
           <ul class="bullet-list">
             ${mountain.cautions.map((item) => `<li>${item}</li>`).join("")}
           </ul>
+        </div>
+        ${renderAccessSection(mountain)}
+        ${renderOnsenSection(mountain)}
+        <div class="detail-section">
           <p class="notice">移動時間と温泉候補はMVP用の目安です。実際の交通状況、天候、登山道状況、施設営業状況は出発前に確認してください。</p>
         </div>
         <div class="detail-bottom-actions">
