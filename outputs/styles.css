@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@500;600;700;800;900&display=swap");
 
 :root {
   color-scheme: light;
@@ -16,8 +16,8 @@
   --amber: #e2ad45;
   --warning: #81551e;
   font-family:
-    "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "Hiragino Maru Gothic Pro",
-    "Yu Gothic", "YuGothic", "Hiragino Sans", "Segoe UI", sans-serif;
+    "M PLUS 1", "Hiragino Sans", "Yu Gothic", "YuGothic", "Segoe UI",
+    sans-serif;
 }
 
 * {
@@ -35,6 +35,7 @@ body {
     linear-gradient(180deg, rgba(255, 254, 249, 0.74), rgba(245, 249, 242, 0.92)),
     var(--canvas);
   color: var(--ink);
+  font-weight: 500;
 }
 
 body::before {
@@ -112,7 +113,7 @@ a:focus-visible {
   background: rgba(255, 254, 249, 0.82);
   color: var(--ink);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
   transition:
     background 160ms ease,
@@ -180,7 +181,7 @@ main {
   margin: 0 0 14px;
   color: var(--clay);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: 0.16em;
 }
 
@@ -189,7 +190,7 @@ main {
   max-width: 420px;
   color: var(--ink);
   font-size: clamp(42px, 7vw, 76px);
-  font-weight: 600;
+  font-weight: 900;
   line-height: 1.08;
   letter-spacing: 0;
 }
@@ -199,7 +200,7 @@ main {
   margin: 18px 0 0;
   color: var(--muted);
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.8;
 }
 
@@ -214,7 +215,7 @@ main {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.08em;
 }
 
@@ -244,7 +245,7 @@ main {
   background: transparent;
   color: var(--ink);
   font-size: clamp(18px, 3vw, 24px);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .station-search input::placeholder {
@@ -262,7 +263,7 @@ main {
   background: rgba(232, 238, 229, 0.62);
   color: var(--forest-dark);
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   transition:
     background 160ms ease,
     border-color 160ms ease,
@@ -297,7 +298,7 @@ main {
   background: rgba(255, 254, 249, 0.82);
   color: var(--ink);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
   transition:
     background 160ms ease,
@@ -331,7 +332,7 @@ main {
   margin-bottom: 4px;
   color: var(--ink);
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .time-options {
@@ -370,7 +371,7 @@ main {
   background: var(--forest-dark);
   color: #fff;
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 800;
   text-decoration: none;
   box-shadow: 0 16px 30px rgba(20, 60, 49, 0.18);
 }
@@ -398,7 +399,7 @@ main {
 .section-heading h2 {
   margin: 0;
   font-size: clamp(27px, 5vw, 46px);
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1.2;
   letter-spacing: 0;
 }
@@ -407,14 +408,14 @@ main {
   margin: 0 0 8px;
   color: var(--clay);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: 0.16em;
 }
 
 .section-heading p:last-child {
   margin: 0;
   color: var(--muted);
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -500,7 +501,7 @@ main {
   background: rgba(17, 29, 25, 0.68);
   color: #fff;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
   text-decoration: none;
   backdrop-filter: blur(10px);
@@ -520,7 +521,7 @@ main {
 .mountain-card h3 {
   margin: 0 0 5px;
   font-size: clamp(23px, 3vw, 30px);
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1.15;
 }
 
@@ -531,7 +532,7 @@ main {
 .area {
   color: var(--muted);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.45;
 }
 
@@ -542,7 +543,7 @@ main {
   background: #f3e5c4;
   color: #5d421f;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .meta-grid {
@@ -570,14 +571,14 @@ main {
   display: block;
   color: var(--ink);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.35;
 }
 
 .appeal {
   color: #2b3733;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.75;
 }
 
@@ -589,12 +590,13 @@ main {
 .empty-state h2 {
   margin: 0 0 10px;
   font-size: 24px;
+  font-weight: 800;
 }
 
 .empty-state p {
   margin: 0;
   color: var(--muted);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.7;
 }
 
@@ -617,7 +619,7 @@ main {
 .detail-hero h1 {
   margin: 0;
   font-size: clamp(42px, 8vw, 72px);
-  font-weight: 600;
+  font-weight: 900;
   line-height: 1.08;
   letter-spacing: 0;
 }
@@ -632,6 +634,7 @@ main {
   margin-top: 0;
   color: rgba(255, 255, 255, 0.78);
   font-size: 14px;
+  font-weight: 500;
 }
 
 .detail-photo-frame {
@@ -661,7 +664,7 @@ main {
 .detail-section h2 {
   margin: 0;
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 800;
 }
 
 .support-section {
@@ -712,7 +715,7 @@ main {
   display: block;
   color: var(--ink);
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1.25;
 }
 
@@ -745,7 +748,7 @@ main {
   background: #e6f0e1;
   color: var(--forest-dark);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
   text-align: center;
 }
@@ -794,7 +797,7 @@ main {
   margin: 0 0 5px;
   color: var(--ink);
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.35;
 }
 
@@ -802,7 +805,7 @@ main {
   margin: 0;
   color: #33413b;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.65;
 }
 
@@ -810,7 +813,7 @@ main {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.7;
 }
 
@@ -875,7 +878,7 @@ main {
   background: rgba(255, 254, 249, 0.86);
   color: var(--forest-dark);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -910,7 +913,7 @@ main {
 .onsen-photo-frame--missing strong {
   color: var(--forest-dark);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.45;
 }
 
@@ -936,7 +939,7 @@ main {
   border-radius: 999px;
   padding: 0 9px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
   white-space: nowrap;
 }
@@ -954,7 +957,7 @@ main {
 .onsen-item h3 {
   margin: 0;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1.35;
 }
 
@@ -962,7 +965,7 @@ main {
   margin: 0;
   color: #33413b;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.65;
 }
 
@@ -983,7 +986,7 @@ main {
   background: rgba(255, 254, 249, 0.86);
   color: var(--forest-dark);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
 }
 
@@ -1043,7 +1046,7 @@ main {
 
 .info-row dd {
   margin: 0;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .bullet-list {
@@ -1080,7 +1083,7 @@ main {
   padding: 10px 0 24px;
   color: var(--muted);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 @media (max-width: 860px) {
